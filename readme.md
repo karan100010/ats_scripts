@@ -6,6 +6,7 @@
   - ## [Setup the Airflow](#setup-the-project)
 
 - # [Setup ChromaDB on CentOS](#setup-chromadb)
+- # [Setup Speechbrain on CentOS](#speechbrain)
 
 <a name="#setup-airflow-on-centos"> </a>
 
@@ -126,3 +127,43 @@ Also verify the database is operational by sending a curl request
 This should return a nanosecond heartbeat like below
 
 `{"nanosecond heartbeat":1700043941276595546}`
+
+<a name="#speechbrain"> </a>
+
+# Setup Speechbrain on CentOS
+
+Speechbrain is the language identification model used to detect the language being spoken in the audiofile. We will be deploying speechbrain wrapped in a flask api with a single endpoint which is used to interact with the model.
+
+### 1. Clone the repo
+
+Clone the repo for ats_scripts. (skip if done already)
+
+`git clone https://github.com/karan100010/ats_scripts.git`
+
+### 2. Switch the directory
+
+Switch to the speechbrain dicretory inside ats_scripts
+
+`cd ./ats_scripts/speechbrain`
+
+### 3. Build the docker image for speechbrain
+
+Create a docker image for speechbrain that is used to run the container.
+
+`docker build -t speechbrain-li .`
+
+### 4. Create and Start the container for speechbrain
+
+Now create the container `speechbrain-li` which will have a flask server on the container on the port 5000. This can be used to send a post request on the `/predict_language` endpoint to get the results.
+
+`docker run -p 5000:5000 --name speechbrain-li-container speechbrain-li`
+
+### 5. Verify the container is running
+
+Verify the container named `speechbrain-li` is running by running the following command
+
+`docker ps`
+
+You can also verify the api by seding a dummy post request to the model using curl
+
+`curl -X POST -H "Content-Type: application/json" -d "{\"filepath\":\"https://omniglot.com/soundfiles/udhr/udhr_th.mp3\"}" http://localhost:5000/predict_language`
