@@ -9,7 +9,7 @@ RUN apt-get update && \
     apt-get install -y libsndfile1 ffmpeg
 
 # Install Cython using pip
-RUN pip install --no-cache-dir Cython Flask gunicorn
+RUN pip install --no-cache-dir Cython Flask gunicorn requests pydub io
 
 # Install nemo_toolkit and its dependencies using pip
 RUN pip install --no-cache-dir nemo_toolkit['all']
