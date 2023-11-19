@@ -33,7 +33,7 @@ def load_audio_from_url(url):
     
 @app.route('/transcribe_hi', methods=['POST'])
 def transcribe_hi():
-    if 'audiofile_path' not in request.form:
+    if 'audiofile' not in request.form:
         return jsonify({'error': 'No audio file path provided'}), 400
 
     audiofile =load_audio_from_url(request.form['audiofile'])
@@ -54,7 +54,7 @@ def transcribe_hi():
 
 @app.route('/transcribe_en', methods=['POST'])
 def transcribe_en():
-    if 'audiofile_path' not in request.form:
+    if 'audiofile' not in request.form:
         return jsonify({'error': 'No audio file path provided'}), 400
     
     audiofile =load_audio_from_url(request.form['audiofile'])
