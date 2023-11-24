@@ -100,6 +100,10 @@ services:
       retries: 5
       start_period: 5s
     restart: always
+    #deploy:
+  #      resources:
+  #        limits:
+  #          cpus: "0.1"
 
   airflow-webserver:
     <<: *airflow-common
@@ -117,6 +121,10 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    #deploy:
+  #      resources:
+  #        limits:
+  #          cpus: "0.1"
 
   airflow-scheduler:
     <<: *airflow-common
@@ -132,6 +140,11 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+
+    #deploy:
+  #      resources:
+  #        limits:
+  #          cpus: "0.1"
 
   airflow-worker:
     <<: *airflow-common
@@ -156,6 +169,11 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
+    #deploy:
+  #      resources:
+  #        limits:
+  #          cpus: "0.1"
+
   airflow-triggerer:
     <<: *airflow-common
     command: triggerer
@@ -174,6 +192,11 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+
+    #deploy:
+  #      resources:
+  #        limits:
+  #          cpus: "0.1"
 
   airflow-init:
     <<: *airflow-common
@@ -253,6 +276,11 @@ services:
     volumes:
       - ${AIRFLOW_PROJ_DIR:-.}/airflow:/sources
 
+    #deploy:
+  #      resources:
+  #        limits:
+  #          cpus: "0.1"
+
   airflow-cli:
     <<: *airflow-common
     profiles:
@@ -272,6 +300,10 @@ services:
     ports:
       - "5000:5000"
     container_name: speechbrain-li
+    #deploy:
+  #      resources:
+  #        limits:
+  #          cpus: "0.1"
 
   spacy:
     build:
@@ -280,6 +312,11 @@ services:
     ports:
       - "5001:5001"
     container_name: spacy-nlp
+    #deploy:
+  #      resources:
+  #        limits:
+  #          cpus: "0.1"
+
   nemo:
     build:
       context: ./nemo
@@ -287,8 +324,12 @@ services:
     ports:
       - "5002:5002"
     container_name: nemo
+    #deploy:
+  #      resources:
+  #        limits:
+  #          cpus: "0.1"
+
   chroma:
-    image: server
     build:
       context: ./chroma
       dockerfile: Dockerfile
@@ -313,6 +354,10 @@ services:
       - 8000:8000
     networks:
       - net
+    #deploy:
+#      resources:
+#        limits:
+#          cpus: "0.1"
 
 volumes:
   backups:

@@ -10,6 +10,14 @@ app = Flask(__name__)
 # Load the Hindi ASR model
 asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
 
+@app.route('/api_status', methods=['GET'])
+def api_status():
+    return jsonify({
+        "status": "ok",
+        "message": "nemo is up and running"
+        }), 200
+
+
 # Load the English ASR model
 asr_model_en = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained("nvidia/stt_en_conformer_transducer_xlarge")
 def load_audio_from_url(url):
@@ -31,6 +39,9 @@ def load_audio_from_url(url):
         print(f"Failed to fetch audio from {url}. Status code: {response.status_code}")
         return None
     
+
+
+
 @app.route('/transcribe_hi', methods=['POST'])
 def transcribe_hi():
     if 'audiofile' not in request.form:
