@@ -1,37 +1,32 @@
 # Table of Contents
 
-- # [Setting up Airflow on CentOS](#setup-airflow-on-centos)
+- ## [Setup Docker](#setup-docker-1)
+- ## [Setup The Project](#setup-the-project-1)
+- ## [Setup Airflow on CentOS](#setup-airflow-on-centos-1)
+- ## [Setup ChromaDB on CentOS](#setup-chromadb-on-centos-1)
+- ## [Setup Nemo English on CentOS](#setup-nemo-english-on-centos-1)
+- ## [Setup Nemo Hindi on CentOS](#setup-nemo-hindi-on-centos-1)
+- ## [Setup Spacy on CentOS](#setup-spacy-on-centos-1)
+- ## [Setup Speechbrain on CentOS](#setup-speechbrain-on-centos-1)
 
-  - ## [Setup Docker](#setup-docker)
-  - ## [Setup the Airflow](#setup-the-project)
-
-- # [Setup ChromaDB on CentOS](#setup-chromadb)
-- # [Setup Speechbrain on CentOS](#speechbrain)
-
-<a name="#setup-airflow-on-centos"> </a>
-
-# Setting up Airflow on CentOS
-
-<a name="#setup-docker"></a>
-
-## Setup Docker
+# Setup Docker
 
 Note: Folllow the latest instructions [here](https://docs.docker.com/engine/install/centos/)
 
-### 1. Uninstall old versions
+## 1. Uninstall old versions
 
 This is important to remove the old versions of docker from the system and always make sure the latest version is used.
 
 `sudo yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine`
 
-### 2. Install the `yum-utils` package and add the docker repo
+## 2. Install the `yum-utils` package and add the docker repo
 
 A collection of tools and programs for managing yum repositories, installing debug packages, source packages, extended information from repositories and administrationFind more about them [here](https://man7.org/linux/man-pages/man1/yum-utils.1.html)
 
 `sudo yum install -y yum-utils`
 `sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo`
 
-### 3. Install Docker Components
+## 3. Install Docker Components
 
 Install the Docker Engine, containerd, and Docker Compose.
 
@@ -39,88 +34,89 @@ Install the Docker Engine, containerd, and Docker Compose.
 
 Note: If prompted to accept the GPG key, verify that the fingerprint matches `060A 61C5 1B55 8A7F 742B 77AA C52F EB6B 621E 9F35`
 
-<a name="#setup-the-project"> </a>
+# Setup The Project
 
-## Setup the project
-
-Note: For a more detailed guide follow [this](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)
-
-### 1. Clone the repo
+## 1. Clone the repo
 
 The repo consists of various scripts for the project. We need the `docker-compose.yaml` script to setup the docker airflow containers
 
 `git clone https://github.com/karan100010/ats_scripts.git`
 
-### 2. Make a new Directory for `airflow`
+## 2. Switch the directory
 
-This directory is the airflow project directory and will contain the files and folders like dags, logs, etc. The name can be anything.
+Change the directory to `ats-scripts`
 
-`mkdir airflow`
+`cd ats-scripts`
 
-### 3. Copy the `docker-compose.yaml` from `ats_scripts` to `airflow`
+# Setup Airflow on CentOS
 
-We are copying the `docker-compose.yaml` to the project directory to create the containers. This file will hold all the deatils about the airflow instance.
+Apache Airflow is an open-source platform simplifying data workflow automation, leveraging Python for code-centric flexibility, dynamic extensibility, and reliable scalability.
 
-Note: Currently setup with the LocalExcecutor
+## 1. Switch the directory
 
-`cp ats_scripts/docker-compose.yaml airflow/docker-compose.yaml`
-
-### 4. Switch the directory to `airflow`
+Change the directory to `airflow` in the `ats_scripts` directory
 
 `cd airflow`
 
-### 5. Create the directory for `./logs`, `./plugins`, `./dags`, `./config`
-
-`mkdir -p ./logs ./plugins ./dags ./config`
-
-### 6. Setup the right Airflow user
+## 2. Setup the right Airflow user
 
 `echo -e "AIRFLOW_UID=$(id -u)" > .env`
 
-### 7. Start the docker engine
+## 3. Start the docker engine
 
 Start the docker engine if not already running
 
 `sudo systemctl start docker`
 
-### 8. Start the containers in detached mode
+## 4. Run docker compose
 
-`docker compose up -d`
+The directory consists of `docker-compose.yaml` which file will hold all the deatils about the airflow instance. Use the below command to run the airflow containers.
 
-<a name="#setup-chromadb"></a>
+`docker-compose up -d`
 
-# Setup ChromaDB
+Note: Currently airflow is setup with the LocalExcecutor. To change this make necessary adjustments to the `docker-compose.yaml` file. For a more detailed guide follow [this](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)
 
-### 1. Clone the repo
+## 5. Check the containers are running
 
-Clone the official chromaDB repo as we will need it to build a docker image ofchormaDB from source.
+Make sure the containers are running. You will get a list of all the running containers.
 
-`git clone https://github.com/chroma-core/chroma.git`
+`docker ps`
 
-### 2. Switch into the repo
+Login to the airflow web dashboard by going to `http://localhost:8080`. The default username and password is `airflow`.
 
-Change the directory and verify that `docker-compose.yml` and `Dockerfile` in the repo. We can modify these if needed to change the default behaivior of the container.
+Note: The default `username` and `password` can be changed by modifying the `docker-compose.yaml`.
+
+# Setup ChromaDB on CentOS
+
+Chroma is an open-source vector database. A vector database is a type of database system optimized for the storage, retrieval, and efficient querying of vector data, commonly used in applications such as machine learning and similarity search.
+
+## 1. Switch the directory
+
+Change the directory to `chroma` in the `ats_scripts` directory
 
 `cd chroma`
-`ls`
 
-### 3. Start the docker engine
+## 2. Start the docker engine
 
 Start the docker engine if not already running
 
 `sudo systemctl start docker`
 
-### 4. Run docker compose
+## 3. Run docker compose
 
-`sudo docker compose up -d`
+The directory consists of `docker-compose.yaml` which file will hold all the deatils about the chromaDB instance. This is used to start the chromaDB container
 
-### 5. Verify everything
+`docker-compose up -d`
 
-Verify that the container has started. There should be a `chroma-server-1` container running.
+## 5. Check the containers are running
 
-`sudo docker ps`
+Make sure the container are running. You will get a list of all the running containers.
 
-Also verify the database is operational by sending a curl request
+`docker ps`
+
+## 6. Verify everything
+
+You can check if everything was setup correctly by sending an HTTP `GET` request to the folling endpoint
 
 `curl http://localhost:8000/api/v1/heartbeat`
 
@@ -128,42 +124,158 @@ This should return a nanosecond heartbeat like below
 
 `{"nanosecond heartbeat":1700043941276595546}`
 
-<a name="#speechbrain"> </a>
+# Setup Nemo English on CentOS
 
-# Setup Speechbrain on CentOS
+Speechbrain is the language identification model used to detect the language being spoken in the audiofile. We will be deploying speechbrain wrapped in a flask api with an endpoint `/transcribe_en` which is used to interact with the model.
 
-Speechbrain is the language identification model used to detect the language being spoken in the audiofile. We will be deploying speechbrain wrapped in a flask api with a single endpoint which is used to interact with the model.
+## 1. Switch the directory
 
-### 1. Clone the repo
+Change the directory to `nemo-en` in the `ats_scripts` directory
 
-Clone the repo for ats_scripts. (skip if done already)
+`cd nemo-en`
 
-`git clone https://github.com/karan100010/ats_scripts.git`
+## 2. Start the docker engine
 
-### 2. Switch the directory
+Start the docker engine if not already running
 
-Switch to the speechbrain dicretory inside ats_scripts
+`sudo systemctl start docker`
 
-`cd ./ats_scripts/speechbrain`
+## 3. Run docker compose
 
-### 3. Build the docker image for speechbrain
+The directory consists of `docker-compose.yaml` which file will hold all the deatils about the nemo-en instance. This is used to start the nemo-en container
 
-Create a docker image for speechbrain that is used to run the container.
+`docker-compose up -d`
 
-`docker build -t speechbrain-li .`
+## 5. Check the containers are running
 
-### 4. Create and Start the container for speechbrain
-
-Now create the container `speechbrain-li` which will have a flask server on the container on the port 5000. This can be used to send a post request on the `/predict_language` endpoint to get the results.
-
-`docker run -p 5000:5000 --name speechbrain-li-container speechbrain-li`
-
-### 5. Verify the container is running
-
-Verify the container named `speechbrain-li` is running by running the following command
+Make sure the container are running. You will get a list of all the running containers.
 
 `docker ps`
 
-You can also verify the api by seding a dummy post request to the model using curl
+## 7. Usage
 
-`curl -X POST -H "Content-Type: application/json" -d "{\"filepath\":\"https://omniglot.com/soundfiles/udhr/udhr_th.mp3\"}" http://localhost:5000/predict_language`
+The nemo-en engine can be using by sending a post request like below
+
+`curl -X POST -H "Content-Type: application/json" -d '{"audiofile":"https://omniglot.com/soundfiles/udhr/udhr_th.mp3"}' http://localhost:5002/transcribe_en`
+
+Note: Replace the audiofile url in the request body with a valid audio url
+
+# Setup Nemo Hindi on CentOS
+
+Speechbrain is the language identification model used to detect the language being spoken in the audiofile. We will be deploying speechbrain wrapped in a flask api with an endpoint `/transcribe_hi` which is used to interact with the model.
+
+## 1. Switch the directory
+
+Change the directory to `nemo-hi` in the `ats_scripts` directory
+
+`cd nemo-hi`
+
+## 2. Start the docker engine
+
+Start the docker engine if not already running
+
+`sudo systemctl start docker`
+
+## 3. Run docker compose
+
+The directory consists of `docker-compose.yaml` which file will hold all the deatils about the nemo-hi instance. This is used to start the nemo-hi container
+
+`docker-compose up -d`
+
+## 5. Check the containers are running
+
+Make sure the container are running. You will get a list of all the running containers.
+
+`docker ps`
+
+## 7. Usage
+
+The nemo-hi engine can be using by sending a post request like below
+
+`curl -X POST -H "Content-Type: application/json" -d '{"audiofile":"https://omniglot.com/soundfiles/udhr/udhr_th.mp3"}' http://localhost:5003/transcribe_hi`
+
+Note: Replace the audiofile url in the request body with a valid audio url
+
+# Setup Spacy on CentOS
+
+Spacy is an open-source NLP library for efficiently processing and analyzing text data, offering pre-trained models for tasks like tokenization, part-of-speech tagging, and named entity recognition. We will be deploying spacy wrapped in a flask api with an endpoint `/get_entities` which is used to interact with the model.
+
+## 1. Switch the directory
+
+Change the directory to `spacy` in the `ats_scripts` directory
+
+`cd spacy`
+
+## 2. Start the docker engine
+
+Start the docker engine if not already running
+
+`sudo systemctl start docker`
+
+## 3. Run docker compose
+
+The directory consists of `docker-compose.yaml` which file will hold all the deatils about the spacy instance. This is used to start the spacy container
+
+`docker-compose up -d`
+
+## 5. Check the containers are running
+
+Make sure the container are running. You will get a list of all the running containers.
+
+`docker ps`
+
+## 6. Verify everything
+
+You can check if everything was setup correctly by sending an HTTP GET request to the folling endpoint
+
+`curl http://localhost:5001/api_status`
+
+## 7. Usage
+
+The spacy engine can be using by sending a post request like below
+
+`curl -X POST -H "Content-Type: application/json" -d '{"sentence": "John Doe is a man"}' http://localhost:5001/get_entities`
+
+Note: Replace the `sentence` in the request body with a valid data
+
+# Setup Speechbrain on CentOS
+
+Speechbrain is the language identification model used to detect the language being spoken in the audiofile. We will be deploying speechbrain wrapped in a flask api with an endpoint `/predict_language` which is used to interact with the model.
+
+## 1. Switch the directory
+
+Change the directory to `speechbrain` in the `ats_scripts` directory
+
+`cd speechbrain`
+
+## 2. Start the docker engine
+
+Start the docker engine if not already running
+
+`sudo systemctl start docker`
+
+## 3. Run docker compose
+
+The directory consists of `docker-compose.yaml` which file will hold all the deatils about the speechbrain instance. This is used to start the speechbrain container
+
+`docker-compose up -d`
+
+## 5. Check the containers are running
+
+Make sure the container are running. You will get a list of all the running containers.
+
+`docker ps`
+
+## 6. Verify if the database is running
+
+You can check if everything was setup correctly by sending an HTTP GET request to the folling endpoint
+
+`curl http://localhost:5000/api_status`
+
+## 7. Usage
+
+The speechbrain engine can be using by sending a post request like below
+
+`curl -X POST -H "Content-Type: application/json" -d '{"filepath":"https://omniglot.com/soundfiles/udhr/udhr_th.mp3"}' http://localhost:5000/predict_language`
+
+Note: Replace the filepath url in the request body with a valid audio url
