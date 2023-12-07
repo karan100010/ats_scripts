@@ -7,6 +7,13 @@ app = Flask(__name__)
 # Load the language identification model
 language_id = EncoderClassifier.from_hparams(source="speechbrain/lang-id-voxlingua107-ecapa", savedir="tmp")
 
+@app.route('/api_status', methods=['GET'])
+def api_status():
+    return jsonify({
+        "status": "ok", 
+        "message":"speechbrain is up and running"
+        }), 200
+
 @app.route('/predict_language', methods=['POST'])
 def predict_language():
     try:
@@ -26,7 +33,7 @@ def predict_language():
             "confidence": float(prediction[1].exp())
         }
 
-        return jsonify(response)
+        return jsonify(response), 200
 
     except Exception as e:
         print(e)
