@@ -1,0 +1,506 @@
+{
+	"info": {
+		"_postman_id": "926ade9d-54bb-4c31-8dff-ebefc1dc2654",
+		"name": "Language",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28978363",
+		"_collection_link": "https://planetary-shadow-330120.postman.co/workspace/New-Team-Workspace~e4623f30-6369-45ad-b7a0-db1e09672b6c/collection/28978363-926ade9d-54bb-4c31-8dff-ebefc1dc2654?action=share&source=collection_link&creator=28978363"
+	},
+	"item": [
+		{
+			"name": "speechbrain",
+			"item": [
+				{
+					"name": "Api Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test whether the response status is 200 OK\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test whether the response is in JSON format\r",
+									"pm.test(\"Response is JSON\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json\");\r",
+									"});\r",
+									"\r",
+									"// Test whether the response body is not empty\r",
+									"pm.test(\"Response body is not empty\", function () {\r",
+									"    pm.response.to.have.body({\r",
+									"    \"message\": \"speechbrain is up and running\",\r",
+									"    \"status\": \"ok\"\r",
+									"});\r",
+									"});\r",
+									"\r",
+									"// Test whether the confidence value is present in the response\r",
+									"pm.test(\"Response contains status value\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Test whether the response body matches the expected structure\r",
+									"pm.test(\"Response body structure is correct\", function () {\r",
+									"    pm.response.to.have.jsonBody({\r",
+									"        status: pm.expect(\"string\")\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api_status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api_status"
+							]
+						},
+						"description": "This documentation pertains to the API status endpoint `'/api_status'`, offering insights into the operational status of the associated API. By utilizing the HTTP GET method, clients can query this endpoint to determine if the API is accessible and functioning as expected."
+					},
+					"response": [
+						{
+							"name": "Api Status",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api_status",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api_status"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.0.1 Python/3.9.18"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 24 Nov 2023 11:11:11 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "58"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"speechbrain is up and running\",\n    \"status\": \"ok\"\n}"
+						}
+					]
+				},
+				{
+					"name": "predict lang",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test whether the response status is 200 OK\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test whether the response is in JSON format\r",
+									"pm.test(\"Response is JSON\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// Test whether the confidence value is present in the response\r",
+									"pm.test(\"Response contains confidence value\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.confidence).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// Test whether the predicted_language value is present in the response\r",
+									"pm.test(\"Response contains predicted_language\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.predicted_language).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Test whether the response body matches the expected structure\r",
+									"pm.test(\"Response body structure is correct\", function () {\r",
+									"    pm.response.to.have.jsonBody({\r",
+									"        confidence: pm.expect(Number),\r",
+									"        predicted_language: pm.expect(\"string\")\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filepath\":\"https://omniglot.com/soundfiles/udhr/udhr_th.mp3\"\r\n    // \"filepath\":\"{{url}}\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/predict_language",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"predict_language"
+							]
+						},
+						"description": "This documentation outlines the usage of the `POST` request to the `/predict_language` endpoint. This endpoint facilitates language prediction based on an audio file specified in the request payload. The audio `filepath` for the audio is sent in the request body."
+					},
+					"response": [
+						{
+							"name": "predict lang",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filepath\":\"https://omniglot.com/soundfiles/udhr/udhr_th.mp3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/predict_language",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"predict_language"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.0.1 Python/3.9.18"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 24 Nov 2023 09:03:49 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "66"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"confidence\": 0.9850276708602905,\n    \"predicted_language\": \"th: Thai\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "spacy",
+			"item": [
+				{
+					"name": "Api Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test whether the response status is 200 OK\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test whether the response is in JSON format\r",
+									"pm.test(\"Response is JSON\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json\");\r",
+									"});\r",
+									"\r",
+									"// Test whether the response body is not empty\r",
+									"pm.test(\"Response body is not empty\", function () {\r",
+									"    pm.response.to.have.body({\r",
+									"    \"status\": \"ok\",\r",
+									"    \"message\": \"spacy is up and running\"\r",
+									"});\r",
+									"});\r",
+									"\r",
+									"// Test whether the confidence value is present in the response\r",
+									"pm.test(\"Response contains status value\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Test whether the response body matches the expected structure\r",
+									"pm.test(\"Response body structure is correct\", function () {\r",
+									"    pm.response.to.have.jsonBody({\r",
+									"        status: pm.expect(\"string\")\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/api_status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api_status"
+							]
+						},
+						"description": "This documentation pertains to the API status endpoint `'/api_status'`, offering insights into the operational status of the associated API. By utilizing the HTTP GET method, clients can query this endpoint to determine if the API is accessible and functioning as expected."
+					},
+					"response": [
+						{
+							"name": "Api Status",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5001/api_status",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"api_status"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.0.1 Python/3.9.18"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 24 Nov 2023 09:00:16 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"ok\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get_entities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Request Test\r",
+									"pm.test(\"Request is successful\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is in JSON format\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Response Test\r",
+									"pm.test(\"Entity information is present in the response\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"array\")\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response body structure is correct\", function () {\r",
+									"    pm.response.to.have.jsonBody([{\r",
+									"        entity:pm.expect(String),\r",
+									"        text:pm.expect(String),\r",
+									"        label:pm.expect(String),\r",
+									"\r",
+									"    }]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"sentence\": \"yes saqib shah is me\" \r\n    \"sentence\": \"{{sentence}}\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5001/get_entities",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5001",
+							"path": [
+								"get_entities"
+							]
+						},
+						"description": "This documentation provides details for the `POST` request to the `/get_entities` endpoint. The endpoint is designed to extract entities from a given sentence, and the extracted entities are returned in the response. The sentence is send in the request body."
+					},
+					"response": [
+						{
+							"name": "get_entities",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sentence\": \"yes saqib shah is me\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5001/get_entities",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5001",
+									"path": [
+										"get_entities"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.0.1 Python/3.9.18"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 24 Nov 2023 09:22:31 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "56"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"entity\": \"PERSON\",\n        \"label\": \"380\",\n        \"text\": \"saqib shah\"\n    }\n]"
+						}
+					]
+				}
+			]
+		}
+	]
+}
