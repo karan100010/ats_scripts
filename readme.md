@@ -72,7 +72,7 @@ Start the docker engine if not already running
 
 The directory consists of `docker-compose.yaml` which file will hold all the deatils about the airflow instance. Use the below command to run the airflow containers.
 
-`docker-compose up -d`
+`docker compose up -d`
 
 Note: Currently airflow is setup with the LocalExcecutor. To change this make necessary adjustments to the `docker-compose.yaml` file. For a more detailed guide follow [this](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)
 
@@ -106,7 +106,7 @@ Start the docker engine if not already running
 
 The directory consists of `docker-compose.yaml` which file will hold all the deatils about the chromaDB instance. This is used to start the chromaDB container
 
-`docker-compose up -d`
+`docker compose up -d`
 
 ## 5. Check the containers are running
 
@@ -180,7 +180,7 @@ Start the docker engine if not already running
 
 The directory consists of `docker-compose.yaml` which file will hold all the deatils about the nemo-hi instance. This is used to start the nemo-hi container
 
-`docker-compose up -d`
+`docker compose up -d`
 
 ## 5. Check the containers are running
 
@@ -216,7 +216,7 @@ Start the docker engine if not already running
 
 The directory consists of `docker-compose.yaml` which file will hold all the deatils about the spacy instance. This is used to start the spacy container
 
-`docker-compose up -d`
+`docker compose up -d`
 
 ## 5. Check the containers are running
 
@@ -258,7 +258,7 @@ Start the docker engine if not already running
 
 The directory consists of `docker-compose.yaml` which file will hold all the deatils about the speechbrain instance. This is used to start the speechbrain container
 
-`docker-compose up -d`
+`docker compose up -d`
 
 ## 5. Check the containers are running
 
