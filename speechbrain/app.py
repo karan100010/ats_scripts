@@ -74,7 +74,8 @@ def convert_ulaw_to_wave():
     #writ ulaw_fragments to a json file
     convert_file(ulaw_fragments)
         # Perform language identification
-    prediction = language_id.classify_batch("outputx.wav")
+    signal = language_id.load_audio('outputx.wav')
+    prediction = language_id.classify_batch(signal)
 
     # Prepare response
     response = {
