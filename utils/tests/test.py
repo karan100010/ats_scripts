@@ -1,16 +1,53 @@
-from .spacy.api_test import  APIStatusTest, GETEntitiesTest
+from .spacy.api_test import  APIStatusTest as SpacyAPIStatusTest, GETEntitiesTest as SpacyGETEntitiesTest 
+from .speechbrain.api_test import APIStatusTest as SpeechBrainAPIStatusTest, PredictLanguage as SpeechbrainPredictLanguage
+from .chroma.api_test import  APIStatusTest as ChromaAPIStatusTest
+from .nemo_hi.api_test import APITestCase as NemoHiAPITestCase, TranscribeHi as NemoHiTranscribeHi
+from .nemo_en.api_test import APITestCase as NemoEnAPITestCase, TranscribeEn as NemoEnTranscribeEn
+from .airflow.api_test import APIStatusTest as AirflowAPIStatusTest
 import unittest
 
 
 
-def run_tests(config):
+def run_tests():
 
     loader = unittest.TestLoader()
-    api_status_suite = loader.loadTestsFromTestCase(APIStatusTest)
-    get_entities_suite = loader.loadTestsFromTestCase(GETEntitiesTest)
+    
+    # spacy suite
+    spacy_api_status_suite = loader.loadTestsFromTestCase(SpacyAPIStatusTest)
+    spacy_get_entities_suite = loader.loadTestsFromTestCase(SpacyGETEntitiesTest)
+
+    # spacy suite
+    speechbrain_api_status_suite = loader.loadTestsFromTestCase(SpeechBrainAPIStatusTest)
+    speechbrain_predict_language_suite = loader.loadTestsFromTestCase(SpeechbrainPredictLanguage)
+
+    # Chroma suite
+    chroma_api_status_suite = loader.loadTestsFromTestCase(ChromaAPIStatusTest)
+
+    # Nemo Hindi suite
+    nemo_hi_api_status_suite = loader.loadTestsFromTestCase(NemoHiAPITestCase)
+    nemo_hi_api_transcribe = loader.loadTestsFromTestCase(NemoHiTranscribeHi)
+
+    # Nemo English suite
+    nemo_en_api_status_suite = loader.loadTestsFromTestCase(NemoEnAPITestCase)
+    nemo_en_api_transcribe = loader.loadTestsFromTestCase(NemoEnTranscribeEn)
+
+    # Nemo English suite
+    airflow_api_status_suite = loader.loadTestsFromTestCase(AirflowAPIStatusTest)
+
 
     # Combine the two suites
-    combined_suite = unittest.TestSuite([api_status_suite, get_entities_suite])
+    combined_suite = unittest.TestSuite([
+        spacy_api_status_suite, 
+        spacy_get_entities_suite, 
+        speechbrain_api_status_suite, 
+        speechbrain_predict_language_suite,
+        chroma_api_status_suite,
+        nemo_hi_api_status_suite,
+        nemo_hi_api_transcribe,
+        nemo_en_api_status_suite,
+        nemo_en_api_transcribe,
+        airflow_api_status_suite
+        ])
 
 
     runner = unittest.TextTestRunner()
@@ -21,14 +58,7 @@ def run_tests(config):
     else:
         print("Some tests failed.")
 
-    # test = APIStatusTest(config)
-    # test.test_response_is_json()
-    # test.test_status_code_is_200()
-    # test.test_response_time_less_than_200ms()
-    # test.get_json_data()
-    # test.test_response_body_not_empty()
-    # test.test_response_contains_status_value()
-    # test.test_response_body_structure_correct()
+
 
 
 

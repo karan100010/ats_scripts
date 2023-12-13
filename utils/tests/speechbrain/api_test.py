@@ -13,7 +13,7 @@ class APITestCase(unittest.TestCase):
     def __init__(self, methodName='runTest', *args, **kwargs):
         super().__init__(methodName, *args, **kwargs)
         config = Config()
-        self.API_ENDPOINT = config.SPACY_API_HOST
+        self.API_ENDPOINT = config.SPEECHBRAIN_API_HOST 
 
     def test_status_code_is_200(self):
         self.assertEqual(self.response.status_code, 200)
@@ -52,29 +52,33 @@ class APIStatusTest(APITestCase):
     def test_response_body_structure_correct(self):
         self.assertIsInstance(self.response.json().get('status'), str)
 
-    
-    
-
-    
 
 
-class GETEntitiesTest(APITestCase):
+class PredictLanguage(APITestCase):
     def __init__(self, methodName='runTest', *args, **kwargs):
         super().__init__(methodName, *args, **kwargs)
         data = {
-            "sentence": "yes saqib shah is me"
+            "filepath": "https://omniglot.com/soundfiles/udhr/udhr_th.mp3"
         }
-        headers={"Content-Type": "application/json"}
-        self.make_request("/get_entities","POST",json_body=data, headers=headers)  
+        headers = {"Content-Type": "application/json"}
+        self.make_request("/predict_language", "POST", json_body=data, headers=headers)
 
     def test_entity_information_present(self):
-        self.assertIsInstance(self.response.json(), list)
+        self.assertIsInstance(self.response.json(), object)
 
     def test_response_body_structure(self):
-        for item in self.response.json():
-            self.assertIsInstance(item['entity'], str)
-            self.assertIsInstance(item['text'], str)
-            self.assertIsInstance(item['label'], str)
+            self.assertIsInstance(self.response.json()['confidence'], float)
+            self.assertIsInstance(self.response.json()['predicted_language'], str)
+
+    def test_response_contains_predicted_language(self):
+        jsonData = self.response.json()
+        self.assertIsInstance(jsonData['predicted_language'], str)
+
+    def test_response_body_structure_is_correct(self):
+        jsonData = self.response.json()
+        self.assertIsInstance(jsonData['confidence'], (int, float))
+        self.assertIsInstance(jsonData['predicted_language'], str)
+
 
     
     

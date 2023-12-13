@@ -13,7 +13,7 @@ class APITestCase(unittest.TestCase):
     def __init__(self, methodName='runTest', *args, **kwargs):
         super().__init__(methodName, *args, **kwargs)
         config = Config()
-        self.API_ENDPOINT = config.SPACY_API_HOST
+        self.API_ENDPOINT = config.CHROMA_API_HOST
 
     def test_status_code_is_200(self):
         self.assertEqual(self.response.status_code, 200)
@@ -39,42 +39,19 @@ class APIStatusTest(APITestCase):
 
     def __init__(self, methodName='runTest', *args, **kwargs):
         super().__init__(methodName, *args, **kwargs)
-        self.make_request("/api_status","GET")        
+        self.make_request("/api/v1/heartbeat","GET")        
 
     def test_response_body_not_empty(self):
+        self.assertTrue(self.response.json().get('nanosecond heartbeat'))
         
-        self.assertTrue(self.response.json().get('message'))
-        self.assertTrue(self.response.json().get('status'))
 
     def test_response_contains_status_value(self):
-        self.assertIsInstance(self.response.json().get('status'), str)
-
-    def test_response_body_structure_correct(self):
-        self.assertIsInstance(self.response.json().get('status'), str)
-
-    
-    
+        self.assertIsInstance(self.response.json().get('nanosecond heartbeat'), int)
 
     
 
 
-class GETEntitiesTest(APITestCase):
-    def __init__(self, methodName='runTest', *args, **kwargs):
-        super().__init__(methodName, *args, **kwargs)
-        data = {
-            "sentence": "yes saqib shah is me"
-        }
-        headers={"Content-Type": "application/json"}
-        self.make_request("/get_entities","POST",json_body=data, headers=headers)  
 
-    def test_entity_information_present(self):
-        self.assertIsInstance(self.response.json(), list)
-
-    def test_response_body_structure(self):
-        for item in self.response.json():
-            self.assertIsInstance(item['entity'], str)
-            self.assertIsInstance(item['text'], str)
-            self.assertIsInstance(item['label'], str)
 
     
     

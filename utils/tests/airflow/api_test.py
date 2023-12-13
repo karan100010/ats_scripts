@@ -13,7 +13,7 @@ class APITestCase(unittest.TestCase):
     def __init__(self, methodName='runTest', *args, **kwargs):
         super().__init__(methodName, *args, **kwargs)
         config = Config()
-        self.API_ENDPOINT = config.SPACY_API_HOST
+        self.API_ENDPOINT = config.AIRFLOW_API_HOST
 
     def test_status_code_is_200(self):
         self.assertEqual(self.response.status_code, 200)
@@ -39,42 +39,31 @@ class APIStatusTest(APITestCase):
 
     def __init__(self, methodName='runTest', *args, **kwargs):
         super().__init__(methodName, *args, **kwargs)
-        self.make_request("/api_status","GET")        
+        self.make_request("/health","GET")        
 
     def test_response_body_not_empty(self):
         
-        self.assertTrue(self.response.json().get('message'))
-        self.assertTrue(self.response.json().get('status'))
-
-    def test_response_contains_status_value(self):
-        self.assertIsInstance(self.response.json().get('status'), str)
+        self.assertTrue(self.response.json().get('dag_processor'))
+        self.assertTrue(self.response.json().get('metadatabase'))
+        self.assertTrue(self.response.json().get('scheduler'))
+        self.assertTrue(self.response.json().get('triggerer'))
 
     def test_response_body_structure_correct(self):
-        self.assertIsInstance(self.response.json().get('status'), str)
+        self.assertIsInstance(self.response.json().get('dag_processor'), object)
+        self.assertIsInstance(self.response.json().get('metadatabase'), object)
+        self.assertIsInstance(self.response.json().get('scheduler'), object)
+        self.assertIsInstance(self.response.json().get('triggerer'), object)
+   
+    def test_response_values(self):
+        self.assertEqual(self.response.json().get('metadatabase')['status'], 'healthy')
+        self.assertEqual(self.response.json().get('scheduler')['status'], 'healthy')
+        self.assertEqual(self.response.json().get('triggerer')['status'], 'healthy')
+        
 
     
-    
 
     
 
-
-class GETEntitiesTest(APITestCase):
-    def __init__(self, methodName='runTest', *args, **kwargs):
-        super().__init__(methodName, *args, **kwargs)
-        data = {
-            "sentence": "yes saqib shah is me"
-        }
-        headers={"Content-Type": "application/json"}
-        self.make_request("/get_entities","POST",json_body=data, headers=headers)  
-
-    def test_entity_information_present(self):
-        self.assertIsInstance(self.response.json(), list)
-
-    def test_response_body_structure(self):
-        for item in self.response.json():
-            self.assertIsInstance(item['entity'], str)
-            self.assertIsInstance(item['text'], str)
-            self.assertIsInstance(item['label'], str)
 
     
     

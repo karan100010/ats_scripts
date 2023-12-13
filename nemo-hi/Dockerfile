@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir Cython Flask gunicorn requests pydub
 # Install nemo_toolkit and its dependencies using pip
 RUN pip install --no-cache-dir nemo_toolkit['all']
 # Expose the necessary port
-EXPOSE 5002
+EXPOSE 5003
 
 
 
