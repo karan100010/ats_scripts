@@ -22,35 +22,35 @@ load_dotenv()
 
 if __name__ == '__main__':
     # Install Docker on CentOS
-    # install_docker_on_centos.install_docker()
+    install_docker_on_centos.install_docker()
     
     # Run pip install for all the modules in the requirements.txt file
-    # run_pip_install()
+    run_pip_install()
 
-    # # Get ENV variables
+    # Get ENV variables
     airflow_compose_path = config.airflow_compose_path
-    # chroma_compose_path = config.chroma_compose_path
-    # nemo_en_compose_path = config.nemo_en_compose_path
-    # nemo_hi_compose_path = config.nemo_hi_compose_path
-    # spacy_compose_path = config.spacy_compose_path
-    # speechbrain_compose_path = config.speechbrain_compose_path
+    chroma_compose_path = config.chroma_compose_path
+    nemo_en_compose_path = config.nemo_en_compose_path
+    nemo_hi_compose_path = config.nemo_hi_compose_path
+    spacy_compose_path = config.spacy_compose_path
+    speechbrain_compose_path = config.speechbrain_compose_path
 
-    # # # Check if the environment variables are set for all the Docker Compose files
-    # check_compose_path(airflow_compose_path, "AIRFLOW_COMPOSE_PATH")
-    # check_compose_path(chroma_compose_path, "CHROMA_COMPOSE_PATH")
-    # check_compose_path(nemo_en_compose_path, "NEMO_EN_COMPOSE_PATH")
-    # check_compose_path(nemo_hi_compose_path, "NEMO_hi_COMPOSE_PATH")
-    # check_compose_path(spacy_compose_path, "SPACY_COMPOSE_PATH")
-    # check_compose_path(speechbrain_compose_path, "SPEECHBRAIN_COMPOSE_PATH")
+    # Check if the environment variables are set for all the Docker Compose files
+    check_compose_path(airflow_compose_path, "AIRFLOW_COMPOSE_PATH")
+    check_compose_path(chroma_compose_path, "CHROMA_COMPOSE_PATH")
+    check_compose_path(nemo_en_compose_path, "NEMO_EN_COMPOSE_PATH")
+    check_compose_path(nemo_hi_compose_path, "NEMO_hi_COMPOSE_PATH")
+    check_compose_path(spacy_compose_path, "SPACY_COMPOSE_PATH")
+    check_compose_path(speechbrain_compose_path, "SPEECHBRAIN_COMPOSE_PATH")
     
 
-    # # Run Docker Compose in detached mode
-    # run_docker_compose_detached(airflow_compose_path, "Airflow")
-    # run_docker_compose_detached(chroma_compose_path, "Chroma")
-    # run_docker_compose_detached(nemo_en_compose_path, "NEMO_EN")
-    # run_docker_compose_detached(nemo_hi_compose_path, "NEMO_hi")
-    # run_docker_compose_detached(spacy_compose_path, "Spacy")
-    # run_docker_compose_detached(speechbrain_compose_path, "Speechbrain")
+    # Run Docker Compose in detached mode
+    run_docker_compose_detached(airflow_compose_path, "Airflow")
+    run_docker_compose_detached(chroma_compose_path, "Chroma")
+    run_docker_compose_detached(nemo_en_compose_path, "NEMO_EN")
+    run_docker_compose_detached(nemo_hi_compose_path, "NEMO_hi")
+    run_docker_compose_detached(spacy_compose_path, "Spacy")
+    run_docker_compose_detached(speechbrain_compose_path, "Speechbrain")
     
 
 
