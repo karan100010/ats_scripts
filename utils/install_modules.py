@@ -14,10 +14,11 @@ def get_pip_command():
 
         # Use subprocess to run the 'pip' module associated with the Python interpreter
         result = subprocess.run([python_path, "-m", "pip", "--version"], capture_output=True, text=True, check=True)
-
+        print(f"result: {result}")
         # Extract the pip command from the output
         pip_command = result.stdout.split()[0]
 
+        print(f"pip command: {pip_command}")
         return pip_command
     except subprocess.CalledProcessError as e:
         logger.error(f"Error getting the pip command: {e}")
