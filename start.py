@@ -3,11 +3,24 @@ from utils.install_modules import run_pip_install
 from utils.docker_utils import run_docker_compose_detached
 from utils.utils import check_compose_path
 import os
+import platform
+import subprocess
+
 
 
 import logging as logger
 
 
+def check_os():
+    return platform.system()
+
+
+def set_bash_profile():
+    try:
+        subprocess.run(["source", "./bash_profile"], check=True, shell=True)
+        print("Bash profile sourced successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
 
 
 
@@ -25,8 +38,12 @@ if __name__ == '__main__':
     from dotenv import load_dotenv
     from utils.tests import test
 
-    # Load environment variables from .env file
-    load_dotenv(".env")
+    if check_os() == "Windows":
+        # Load environment variables from .env file
+        load_dotenv(".env")
+    else:
+        set_bash_profile()
+
 
 
     
