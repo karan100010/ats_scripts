@@ -26,7 +26,7 @@ if __name__ == '__main__':
     from utils.tests import test
 
     # Load environment variables from .env file
-    load_dotenv()
+    load_dotenv(".env")
 
 
     
