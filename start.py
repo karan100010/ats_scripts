@@ -53,11 +53,11 @@ if __name__ == '__main__':
 
     # Run Docker Compose in detached mode
     run_docker_compose_detached(airflow_compose_path, "Airflow")
-    # run_docker_compose_detached(chroma_compose_path, "Chroma")
-    # run_docker_compose_detached(nemo_en_compose_path, "NEMO_EN")
-    # run_docker_compose_detached(nemo_hi_compose_path, "NEMO_hi")
-    # run_docker_compose_detached(spacy_compose_path, "Spacy")
-    # run_docker_compose_detached(speechbrain_compose_path, "Speechbrain")
+    run_docker_compose_detached(chroma_compose_path, "Chroma")
+    run_docker_compose_detached(nemo_en_compose_path, "NEMO_EN")
+    run_docker_compose_detached(nemo_hi_compose_path, "NEMO_hi")
+    run_docker_compose_detached(spacy_compose_path, "Spacy")
+    run_docker_compose_detached(speechbrain_compose_path, "Speechbrain")
     
 
 
