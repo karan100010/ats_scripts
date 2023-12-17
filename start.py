@@ -2,7 +2,6 @@ from utils import install_docker_on_centos
 from utils.install_modules import run_pip_install
 from utils.docker_utils import run_docker_compose_detached
 from utils.utils import check_compose_path
-from dotenv import load_dotenv
 import os
 
 from config import Config
@@ -13,8 +12,7 @@ import logging as logger
 
 config = Config()
 
-# Load environment variables from .env file
-load_dotenv()
+
 
 # Configure logging
 # logging.basicConfig(level=logging.DEBUG)
@@ -26,6 +24,11 @@ if __name__ == '__main__':
     
     # Run pip install for all the modules in the requirements.txt file
     run_pip_install()
+
+    from dotenv import load_dotenv
+
+    # Load environment variables from .env file
+    load_dotenv()
 
     # Get ENV variables
     airflow_compose_path = config.airflow_compose_path
