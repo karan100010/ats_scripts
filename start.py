@@ -11,18 +11,6 @@ import subprocess
 import logging as logger
 
 
-def check_os():
-    return platform.system()
-
-
-def set_bash_profile():
-    try:
-        subprocess.run(["source", "./bash_profile"], check=True, shell=True)
-        print("Bash profile sourced successfully.")
-    except subprocess.CalledProcessError as e:
-        print(f"Error: {e}")
-
-
 
 # Configure logging
 # logging.basicConfig(level=logging.DEBUG)
@@ -38,11 +26,7 @@ if __name__ == '__main__':
     from dotenv import load_dotenv
     from utils.tests import test
 
-    if check_os() == "Windows":
-        # Load environment variables from .env file
-        load_dotenv(".env")
-    else:
-        set_bash_profile()
+    load_dotenv("./.env")
 
 
 
@@ -69,15 +53,16 @@ if __name__ == '__main__':
 
     # Run Docker Compose in detached mode
     run_docker_compose_detached(airflow_compose_path, "Airflow")
-    run_docker_compose_detached(chroma_compose_path, "Chroma")
-    run_docker_compose_detached(nemo_en_compose_path, "NEMO_EN")
-    run_docker_compose_detached(nemo_hi_compose_path, "NEMO_hi")
-    run_docker_compose_detached(spacy_compose_path, "Spacy")
-    run_docker_compose_detached(speechbrain_compose_path, "Speechbrain")
+    # run_docker_compose_detached(chroma_compose_path, "Chroma")
+    # run_docker_compose_detached(nemo_en_compose_path, "NEMO_EN")
+    # run_docker_compose_detached(nemo_hi_compose_path, "NEMO_hi")
+    # run_docker_compose_detached(spacy_compose_path, "Spacy")
+    # run_docker_compose_detached(speechbrain_compose_path, "Speechbrain")
     
 
 
-    # Run tests
-    test.run_tests()
+
+    # # Run tests
+    # test.run_tests()
 
     

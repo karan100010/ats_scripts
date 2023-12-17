@@ -10,6 +10,10 @@ def run_command(command):
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     output, error = process.communicate()
     return process.returncode, output.decode('utf-8'), error.decode('utf-8')
+def start_and_enable_docker():
+    run_command("sudo systemctl start docker")
+    run_command("sudo systemctl enable docker")
+
 
 def is_docker_installed():
     # Check if Docker is installed by running a Docker command
@@ -22,6 +26,7 @@ def install_docker():
 
         if is_docker_installed():
             logger.info("Docker is already installed. Skipping installation.")
+            start_and_enable_docker()
             return
 
         # Step 2: Install yum-utils and add the Docker repo
@@ -32,8 +37,7 @@ def install_docker():
         run_command("sudo yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin")
 
         # Start and enable Docker
-        run_command("sudo systemctl start docker")
-        run_command("sudo systemctl enable docker")
+        start_and_enable_docker()
 
         # Add the current user to the "docker" group to run Docker commands without sudo
         run_command("sudo usermod -aG docker $(whoami)")

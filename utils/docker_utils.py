@@ -25,8 +25,10 @@ def run_docker_compose_detached(compose_file_path, compose_name):
         logger.info(f"Running Compose for {compose_name}...")
         logger.info(f"Running Docker Compose in detached mode with file: {compose_file_path}")
         
+        command = f"docker compose -f {compose_file_path} up -d" 
         # Use subprocess to run docker-compose command
-        subprocess.run(["docker-compose", "-f", compose_file_path, "up", "-d"], check=True)
+        subprocess.run(command, shell=True, check=True)
+        # subprocess.run(["docker compose", "-f", compose_file_path, "up", "-d"], check=True)
 
         logger.info("Docker Compose execution initiated in detached mode.")
         logger.info("Please wait for the containers to start...")
