@@ -62,7 +62,7 @@ if __name__ == '__main__':
 
 
 
-    # # Run tests
-    # test.run_tests()
+    # Run tests
+    test.run_tests()
 
     
