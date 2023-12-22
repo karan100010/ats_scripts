@@ -20,11 +20,15 @@ def api_status():
 
 @app.route('/get_entities', methods=['POST'])
 def entities():
-    data = request.json
-    text = data['sentence']
+    try:
+        text = request.json['sentence']
+    except:
+        return jsonify({"error": "no sentence found"}), 400
+    
     entities = get_entities(text, nlp)
     sentiment = get_sentiment(text, nlp)
-    return jsonify(entities, sentiment), 200
+    return jsonify({"entities":entities,
+                    "sentiment":sentiment  }), 200
 
 
 
