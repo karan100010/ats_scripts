@@ -13,6 +13,13 @@ def get_entities(text, nlp):
     
     return entities
 
+def get_sentiment(text, nlp):
+    doc = nlp(text)
+    sentiments = {
+        "polarity": doc._.blob.polarity,
+        "subjectivity": doc._.blob.subjectivity,
+        "assessments": doc._.blob.sentiment_assessments.assessments
+    }
 
-
+    return sentiments
 
