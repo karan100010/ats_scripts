@@ -29,11 +29,10 @@ def predict_language():
 
         # Prepare response
         response = {
-            "predicted_language": prediction[3][0],  # Get the first language in case of multiple predictions
+            "predicted_language": prediction,  # Get the first language in case of multiple predictions
             "confidence": float(prediction[1].exp())
         }
 
-        return jsonify(response), 200
 
     except Exception as e:
         print(e)
@@ -78,8 +77,9 @@ def convert_ulaw_to_wave():
     prediction = language_id.classify_batch(signal)
 
     # Prepare response
+    print(prediction)
     response = {
-        "predicted_language": prediction[3][0],  # Get the first language in case of multiple predictions
+        "predicted_language": prediction[3],  # Get the first language in case of multiple predictions
         "confidence": float(prediction[1].exp())
     }
 
