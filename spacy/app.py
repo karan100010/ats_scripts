@@ -18,7 +18,7 @@ def api_status():
 def entities():
     data = request.json
     text = data['sentence']
-    entities = get_entities(text, nlp)
+    entities = get_entities(text[0], nlp)
     return jsonify(entities)
 
 
