@@ -1,0 +1,20 @@
+version: "3.8"
+
+networks:
+  net:
+    driver: bridge
+
+services:
+  nemo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5002"
+    container_name: nemo-en
+    networks:
+      - net
+    #deploy:
+  #      resources:
+  #        limits:
+  #          cpus: "0.1"
