@@ -13,23 +13,23 @@ def api_test():
     return jsonify({'message': 'NMT Hindi To English is working'})
 
 
-@app.route('/translate', methods=['GET'])
-def translate_file():
-    with open('input.txt', 'r',encoding='utf-8') as f:
-        text = f.readlines()
+# @app.route('/translate', methods=['GET'])
+# def translate_file():
+#     with open('input.txt', 'r',encoding='utf-8') as f:
+#         text = f.readlines()
 
-    response = []
-    for line in text:
-        result = nmt_model.translate("आप आज कर रहे हैं", source_lang="hi", target_lang="en")
-        response.append(result)
+#     response = []
+#     for line in text:
+#         result = nmt_model.translate("आप आज कर रहे हैं", source_lang="hi", target_lang="en")
+#         response.append(result)
         
-    with open('output.txt', 'w',encoding='utf-8') as f:
-        for item in response:
-            item = " ".join(item)
-            f.write("%s\n" % item)
+#     with open('output.txt', 'w',encoding='utf-8') as f:
+#         for item in response:
+#             item = " ".join(item)
+#             f.write("%s\n" % item)
 
 
-    return jsonify({"message":"Translation Saved in output.txt"}),200
+#     return jsonify({"message":"Translation Saved in output.txt"}),200
 #write a post endpoint to to accept json
 @app.route('/translate', methods=['POST'])
 def translate_file():
