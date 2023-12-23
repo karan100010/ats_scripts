@@ -30,10 +30,6 @@ def translate_file():
 
 
     return jsonify({"message":"Translation Saved in output.txt"}),200
-
-if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=5007)
-
 #write a post endpoint to to accept json
 @app.route('/translate', methods=['POST'])
 def translate_file():
@@ -47,6 +43,11 @@ def translate_file():
         print(e)
         return jsonify({"error": str(e)}), 500
     return jsonify(response), 200
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host="0.0.0.0", port=5007)
 
 
 
