@@ -19,7 +19,7 @@ def api_status():
 
 
 # Load the English ASR model
-asr_model_en = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained("nvidia/stt_en_conformer_transducer_xlarge")
+#asr_model_en = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained("nvidia/stt_en_conformer_transducer_xlarge")
 def load_audio_from_url(url):
     # Make a GET request to the URL
     response = requests.get(url)
@@ -87,3 +87,56 @@ def transcribe_en():
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5003) 
     
+
+import wave
+import audioop
+import json
+
+def convert_file(file):
+    # Decode and combine u-law fragments into a single bytearray
+    combined_pcm_data = bytearray()
+    ulaw_data = bytes(file['data']['data'])
+
+
+    # Decode the u-law data to 16-bit linear PCM
+    pcm_data = audioop.ulaw2lin(ulaw_data, 2)
+
+
+    # Save the combined PCM data to a WAV file
+    with wave.open('outputx.wav', 'wb') as wf:
+        wf.setnchannels(1)  # Adjust based on the number of channels in your audio
+        wf.setsampwidth(2)  # 2 bytes for 16-bit audio
+        wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
+        wf.writeframes(pcm_data)
+@app.route('/convert', methods=['POST'])
+def convert_ulaw_to_wave():
+
+
+# Assuming you have an array of u-law encoded fragments
+    ulaw_fragments = request.get_json()
+    print(ulaw_fragments)
+    #convert ulaw_fragment variable to a array
+
+    print(type(ulaw_fragments))
+    #writ ulaw_fragments to a json file
+    convert_file(ulaw_fragments)
+        # Perform language identification
+    signal = language_id.load_audio('outputx.wav')
+    prediction = language_id.classify_batch(signal)
+
+    # Prepare response
+    print(prediction)
+    response = {
+        "predicted_language": prediction[3],  # Get the first language in case of multiple predictions
+        "confidence": float(prediction[1].exp())
+    }
+
+
+    return jsonify(response)
+        
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+

@@ -20,7 +20,7 @@ def translate_file():
 
     response = []
     for line in text:
-        result = nmt_model.translate(line, source_lang="hi", target_lang="en")
+        result = nmt_model.translate("आप आज कर रहे हैं", source_lang="hi", target_lang="en")
         response.append(result)
         
     with open('output.txt', 'w',encoding='utf-8') as f:
@@ -33,6 +33,20 @@ def translate_file():
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5007)
+
+#write a post endpoint to to accept json
+@app.route('/translate', methods=['POST'])
+def translate_file():
+    try:
+        text = request.json['text']
+        result = nmt_model.translate([text], source_lang="hi", target_lang="en")
+        response = {
+            "translated_text": result
+        }
+    except Exception as e:
+        print(e)
+        return jsonify({"error": str(e)}), 500
+    return jsonify(response), 200
 
 
 

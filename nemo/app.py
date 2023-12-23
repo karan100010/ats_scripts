@@ -8,7 +8,7 @@ import json
 app = Flask(__name__)
 
 # Load the Hindi ASR model
-#asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
+asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
 
 @app.route('/api_status', methods=['GET'])
 def api_status():
@@ -19,7 +19,7 @@ def api_status():
 
 
 # Load the English ASR model
-asr_model_en = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained("stt_en_conformer_ctc_small")
+#asr_model_en = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained("stt_en_conformer_ctc_small")
 def load_audio_from_url(url):
     # Make a GET request to the URL
     response = requests.get(url)
@@ -72,7 +72,7 @@ def transcribe_en():
     
     try:
         # Transcribe the English audio file
-        transcription = asr_model_en.transcribe([audiofile])
+        transcription = asr_model_hi.transcribe([audiofile])
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -118,7 +118,7 @@ def convert_ulaw_to_wave():
     print(type(ulaw_fragments))
     #writ ulaw_fragments to a json file
     convert_file(ulaw_fragments)
-    text=asr_model_en.transcribe(["output.wav"])
+    text=asr_model_hi.transcribe(["output.wav"])
     response_data = {
         'data_time': datetime.now().isoformat(),
         'transcribe': text[0]
