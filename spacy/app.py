@@ -1,8 +1,12 @@
 import spacy
-from functions import get_entities
+from functions import get_entities, get_sentiment
 from flask import Flask, request, jsonify
 
+from spacytextblob.spacytextblob import SpacyTextBlob
+
+
 nlp = spacy.load("en_core_web_trf", disable=["tok2vec", "tagger", "parser", "attribute_ruler", "lemmatizer"])
+nlp.add_pipe('spacytextblob')
 
 app = Flask(__name__)
 
@@ -16,10 +20,17 @@ def api_status():
 
 @app.route('/get_entities', methods=['POST'])
 def entities():
-    data = request.json
-    text = data['sentence']
-    entities = get_entities(text[0], nlp)
-    return jsonify(entities)
+    try:
+        text = request.json['sentence']
+    except:
+        return jsonify({"error": "no sentence found"}), 400
+    
+    entities = get_entities(text, nlp)
+    sentiment = get_sentiment(text, nlp)
+    return jsonify({"entities":entities,
+                    "sentiment":sentiment  }), 200
+
+
 
 
 if __name__ == '__main__':
