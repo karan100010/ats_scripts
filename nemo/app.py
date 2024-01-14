@@ -19,7 +19,7 @@ def api_status():
 
 
 # Load the English ASR model
-#asr_model_en = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained("stt_en_conformer_ctc_small")
+asr_model_en = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained("stt_en_conformer_ctc_small")
 def load_audio_from_url(url):
     # Make a GET request to the URL
     response = requests.get(url)
@@ -112,12 +112,12 @@ def convert_ulaw_to_wave():
 
 # Assuming you have an array of u-law encoded fragments
     ulaw_fragments = request.get_json()
-    print(ulaw_fragments)
+    print(ulaw_fragments.form['audiofile'])
     #convert ulaw_fragment variable to a array
 
     print(type(ulaw_fragments))
     #writ ulaw_fragments to a json file
-    convert_file(ulaw_fragments)
+    convert_file(ulaw_fragments.form['audiofile'])
     text=asr_model_hi.transcribe(["output.wav"])
     response_data = {
         'data_time': datetime.now().isoformat(),
