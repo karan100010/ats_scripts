@@ -111,13 +111,13 @@ def convert_ulaw_to_wave():
 
 
 # Assuming you have an array of u-law encoded fragments
-    ulaw_fragments = request.get_json()
-    print(ulaw_fragments['audiofile'])
+    ulaw_fragments = request.get_data()
+    print(ulaw_fragments)
     #convert ulaw_fragment variable to a array
 
     print(type(ulaw_fragments))
     #writ ulaw_fragments to a json file
-    convert_file(ulaw_fragments['audiofile'])
+    convert_file(ulaw_fragments)
     text=asr_model_hi.transcribe(["output.wav"])
     response_data = {
         'data_time': datetime.now().isoformat(),
