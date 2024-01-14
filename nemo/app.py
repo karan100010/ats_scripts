@@ -97,7 +97,7 @@ def convert_file(file):
 
 
     # Decode the u-law data to 16-bit linear PCM
-    pcm_data = audioop.ulaw2lin(file, 2)
+    #pcm_data = audioop.ulaw2lin(file, 2)
 
 
     # Save the combined PCM data to a WAV file
@@ -105,7 +105,7 @@ def convert_file(file):
         wf.setnchannels(1)  # Adjust based on the number of channels in your audio
         wf.setsampwidth(2)  # 2 bytes for 16-bit audio
         wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
-        wf.writeframes(pcm_data)
+        wf.writeframes(file)
 @app.route('/convert', methods=['POST'])
 def convert_ulaw_to_wave():
 
