@@ -8,7 +8,7 @@ import json
 app = Flask(__name__)
 
 # Load the Hindi ASR model
-asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
+#asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
 
 @app.route('/api_status', methods=['GET'])
 def api_status():
@@ -118,7 +118,7 @@ def convert_ulaw_to_wave():
     print(type(ulaw_fragments))
     #writ ulaw_fragments to a json file
     convert_file(ulaw_fragments)
-    text=asr_model_hi.transcribe(["output.wav"])
+    text=asr_model_en.transcribe(["output.wav"])
     response_data = {
         'data_time': datetime.now().isoformat(),
         'transcribe': text[0]
