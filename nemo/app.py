@@ -92,13 +92,13 @@ import json
 
 def convert_file(file):
     # Decode and combine u-law fragments into a single bytearray
-    combined_pcm_data = bytearray()
-   # ulaw_data = bytes(file['data']['data'])
+    # Remove the unused line of code
+    # combined_pcm_data = bytearray()
 
+    # ulaw_data = bytes(file['data']['data'])
 
     # Decode the u-law data to 16-bit linear PCM
-    #pcm_data = audioop.ulaw2lin(file, 2)
-
+    # pcm_data = audioop.ulaw2lin(file, 2)
 
     # Save the combined PCM data to a WAV file
     with wave.open('output.wav', 'wb') as wf:
