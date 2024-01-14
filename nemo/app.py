@@ -19,7 +19,7 @@ def api_status():
 
 
 # Load the English ASR model
-asr_model_en = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained("stt_en_conformer_ctc_small")
+asr_model_en = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_en_conformer_ctc_small")
 def load_audio_from_url(url):
     # Make a GET request to the URL
     response = requests.get(url)
