@@ -4,7 +4,10 @@ WORKDIR /spacy
 
 # Install necessary dependencies
 COPY requirements.txt .
+COPY requirements-intent.txt .  
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements-intent.txt
+
 # RUN python -m spacy download en_core_web_trf
 
 
