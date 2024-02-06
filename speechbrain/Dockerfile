@@ -1,4 +1,4 @@
-FROM python:3.9-slim 
+FROM python:3.10-slim 
 
 WORKDIR /speechbrain
 
@@ -7,7 +7,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-# Copy the "app.py" file into the "speechbrain" folder
+# Copy the "app.py" and "model" file into the "speechbrain" folder
+ADD  model /speechbrain/model
 COPY ./app.py /speechbrain
 
 
