@@ -13,22 +13,20 @@ app = Flask(__name__)
 
 def convert_file(file):
     # Decode and combine u-law fragments into a single bytearray
-    combined_pcm_data = bytearray()
-    ulaw_data = bytes(file)
+    # Remove the unused line of code
+    # combined_pcm_data = bytearray()
 
+    # ulaw_data = bytes(file['data']['data'])
 
     # Decode the u-law data to 16-bit linear PCM
-    pcm_data = audioop.ulaw2lin(ulaw_data, 2)
-
+    # pcm_data = audioop.ulaw2lin(file, 2)
 
     # Save the combined PCM data to a WAV file
     with wave.open('output.wav', 'wb') as wf:
         wf.setnchannels(1)  # Adjust based on the number of channels in your audio
         wf.setsampwidth(2)  # 2 bytes for 16-bit audio
         wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
-        wf.writeframes(pcm_data)
-
-# Load the Hindi ASR model
+        wf.writeframes(file)
 #asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 @app.route('/api_status', methods=['GET'])
