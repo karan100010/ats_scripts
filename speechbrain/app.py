@@ -4,7 +4,7 @@ from speechbrain.pretrained import EncoderClassifier
 from speechbrain.pretrained import  EncoderClassifier, SpeakerRecognition
 import wave
 from datetime import datetime
-import resampy
+
 app = Flask(__name__)
 
 def convert_file(file):
@@ -20,12 +20,12 @@ def convert_file(file):
     # Save the combined PCM data to a WAV file
     with wave.open('output.wav', 'wb') as wf:
         # Upsample the audio to 16000 sample rate
-        signal = resampy.resample(signal, 8000, 16000)
         
         wf.setnchannels(1)  # Adjust based on the number of channels in your audio
         wf.setsampwidth(2)  # 2 bytes for 16-bit audio
         wf.setframerate(16000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
+    os.system("sox output.wav -b 16 output.wav")  # Convert the audio to 16kHz sample rate
 
 # Load the language identification model
 model_path = "model/epaca/1988/save/CKPT+2024-01-09+16-55-38+00"
