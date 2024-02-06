@@ -39,3 +39,5 @@ def predict_language():
         return jsonify({"error": str(e)}), 500
     
 #new code from below this line
+    
+#turn text into ulaw stream
