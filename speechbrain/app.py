@@ -23,7 +23,7 @@ def convert_file(file):
         
         wf.setnchannels(1)  # Adjust based on the number of channels in your audio
         wf.setsampwidth(2)  # 2 bytes for 16-bit audio
-        wf.setframerate(16000)  # Adjust based on the sample rate of your u-law audio
+        wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
     os.system("sox output.wav -b 16 output.wav")  # Convert the audio to 16kHz sample rate
 
