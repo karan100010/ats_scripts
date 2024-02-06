@@ -110,7 +110,7 @@ def convert_ulaw_to_wave():
 
 
 # Assuming you have an array of u-law encoded fragments
-    ulaw_fragments = request.get_json()
+    ulaw_fragments  = request.get_data()
     print(ulaw_fragments)
     #convert ulaw_fragment variable to a array
 
