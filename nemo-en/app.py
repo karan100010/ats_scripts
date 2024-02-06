@@ -14,7 +14,7 @@ app = Flask(__name__)
 def convert_file(file):
     # Decode and combine u-law fragments into a single bytearray
     combined_pcm_data = bytearray()
-    ulaw_data = bytes(file['data']['data'])
+    ulaw_data = bytes(file)
 
 
     # Decode the u-law data to 16-bit linear PCM
