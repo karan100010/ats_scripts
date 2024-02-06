@@ -77,8 +77,7 @@ def convert_ulaw_to_wave():
     os.remove("output.wav")
     response_data = {
         'data_time': datetime.now().isoformat(),
-        'prediction':prediction[3],
-        'probability':prediction[1].exp()
+        'prediction':prediction[3]
     }
 
     return jsonify(response_data)
