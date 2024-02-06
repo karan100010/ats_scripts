@@ -28,7 +28,7 @@ def convert_file(file):
         wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
 #asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 @app.route('/api_status', methods=['GET'])
 def api_status():
     return jsonify({
