@@ -8,7 +8,7 @@ import json
 app = Flask(__name__)
 
 # Load the Hindi ASR model
-#asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
+asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
 
 @app.route('/api_status', methods=['GET'])
 def api_status():

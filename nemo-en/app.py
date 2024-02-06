@@ -6,8 +6,8 @@ import tempfile
 import os
 import json
 import wave
-import audioop
 import json
+import nemo.collections.nlp as nemo_nlp
 app = Flask(__name__)
 
 
@@ -27,7 +27,9 @@ def convert_file(file):
         wf.setsampwidth(2)  # 2 bytes for 16-bit audio
         wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
-#asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
+asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
+
+nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2")
 
 @app.route('/api_status', methods=['GET'])
 def api_status():
@@ -103,7 +105,7 @@ def transcribe_en():
 
     return jsonify(response_data)
 
-@app.route('/convert', methods=['POST'])
+@app.route('/convert_en', methods=['POST'])
 def convert_ulaw_to_wave():
 
     print(request.get_data())
@@ -120,6 +122,28 @@ def convert_ulaw_to_wave():
     response_data = {
         'data_time': datetime.now().isoformat(),
         'transcribe': text[0]
+    }
+
+    return jsonify(response_data)
+
+@app.route('/convert_en', methods=['POST'])
+def convert_ulaw_to_wave_hi():
+
+    print(request.get_data())
+    ulaw_fragments  = request.get_data()
+    print(ulaw_fragments)
+    #convert ulaw_fragment variable to a array
+
+    print(type(ulaw_fragments))
+    #writ ulaw_fragments to a json file
+    convert_file(ulaw_fragments)
+    text=asr_model_hi.transcribe(["output.wav"])
+    #delete the file output.wav
+    result = nmt_model.translate([text[0]], source_lang="hi", target_lang="en")
+    os.remove("output.wav")
+    response_data = {
+        'data_time': datetime.now().isoformat(),
+        'transcribe': result[0]
     }
 
     return jsonify(response_data)
