@@ -29,7 +29,7 @@ def convert_file(file):
         wf.writeframes(pcm_data)
 
 # Load the Hindi ASR model
-asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
+#asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
 
 @app.route('/api_status', methods=['GET'])
 def api_status():
@@ -40,7 +40,7 @@ def api_status():
 
 
 # Load the English ASR model
-asr_model_en = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained("nvidia/stt_en_conformer_transducer_xlarge")
+asr_model_en = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_en_conformer_ctc_medium")
 def load_audio_from_url(url):
     # Make a GET request to the URL
     response = requests.get(url)
