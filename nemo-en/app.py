@@ -126,7 +126,7 @@ def convert_ulaw_to_wave():
 
     return jsonify(response_data)
 
-@app.route('/convert_en', methods=['POST'])
+@app.route('/convert_hi', methods=['POST'])
 def convert_ulaw_to_wave_hi():
 
     print(request.get_data())
