@@ -48,15 +48,15 @@ def predict_language():
         
         
         # Load the audio file
-        signal = language_id.load_audio(filepath)
+        # signal = language_id.load_audio(filepath)
 
 
         # Perform language identification
-        prediction = language_id.classify_batch(signal)
+        prediction = model.classify_file(filepath)
 
         # Prepare response
         response = {
-            "predicted_language": prediction[3][0],  # Get the first language in case of multiple predictions
+            "predicted_language": prediction[3],  # Get the first language in case of multiple predictions
             "confidence": float(prediction[1].exp())
         }
 
