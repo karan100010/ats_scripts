@@ -115,6 +115,8 @@ def convert_ulaw_to_wave():
     #writ ulaw_fragments to a json file
     convert_file(ulaw_fragments)
     text=asr_model_en.transcribe(["output.wav"])
+    #delete the file output.wav
+    os.remove("output.wav")
     response_data = {
         'data_time': datetime.now().isoformat(),
         'transcribe': text[0]
