@@ -25,7 +25,7 @@ def convert_file(file):
         wf.setsampwidth(2)  # 2 bytes for 16-bit audio
         wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
-    os.system("x -r 16000 -e unsigned -b 8 -c 1 output.wav output.wav")  # Convert the audio to 16kHz sample rate
+    #os.system("x -r 16000 -e unsigned -b 8 -c 1 output.wav output.wav")  # Convert the audio to 16kHz sample rate
 
 # Load the language identification model
 model_path = "model/epaca/1988/save/CKPT+2024-01-09+16-55-38+00"
