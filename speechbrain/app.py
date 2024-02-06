@@ -78,7 +78,7 @@ def convert_ulaw_to_wave():
     convert_file(ulaw_fragments)
     prediction = model.classify_file("output.wav")
     #delete the file output.wav
-    os.remove("output.wav")
+
     response_data = {
         'data_time': datetime.now().isoformat(),
         'prediction':prediction[3]
