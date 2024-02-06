@@ -108,8 +108,7 @@ def transcribe_en():
 @app.route('/convert', methods=['POST'])
 def convert_ulaw_to_wave():
 
-
-# Assuming you have an array of u-law encoded fragments
+    print(request.get_data())
     ulaw_fragments  = request.get_data()
     print(ulaw_fragments)
     #convert ulaw_fragment variable to a array
