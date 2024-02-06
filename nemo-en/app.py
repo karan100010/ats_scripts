@@ -5,7 +5,28 @@ import requests
 import tempfile
 import os
 import json
+import wave
+import audioop
+import json
 app = Flask(__name__)
+
+
+def convert_file(file):
+    # Decode and combine u-law fragments into a single bytearray
+    combined_pcm_data = bytearray()
+    ulaw_data = bytes(file['data']['data'])
+
+
+    # Decode the u-law data to 16-bit linear PCM
+    pcm_data = audioop.ulaw2lin(ulaw_data, 2)
+
+
+    # Save the combined PCM data to a WAV file
+    with wave.open('output.wav', 'wb') as wf:
+        wf.setnchannels(1)  # Adjust based on the number of channels in your audio
+        wf.setsampwidth(2)  # 2 bytes for 16-bit audio
+        wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
+        wf.writeframes(pcm_data)
 
 # Load the Hindi ASR model
 asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium")
@@ -84,6 +105,27 @@ def transcribe_en():
 
     return jsonify(response_data)
 
+@app.route('/convert', methods=['POST'])
+def convert_ulaw_to_wave():
+
+
+# Assuming you have an array of u-law encoded fragments
+    ulaw_fragments = request.get_json()
+    print(ulaw_fragments)
+    #convert ulaw_fragment variable to a array
+
+    print(type(ulaw_fragments))
+    #writ ulaw_fragments to a json file
+    convert_file(ulaw_fragments)
+    text=asr_model_en.transcribe(["output.wav"])
+    response_data = {
+        'data_time': datetime.now().isoformat(),
+        'transcribe': text[0]
+    }
+
+    return jsonify(response_data)
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002) 
-    
+
