@@ -90,7 +90,7 @@ def transcribe_hi():
         response_data = {
             'data_time': datetime.now().isoformat(),
             'transcribe': transcription[0],
-            'nlp': json.load(nlp_response.text)
+            'nlp': nlp_response.text
         }
 
     return json.dumps(response_data,ensure_ascii=False)
@@ -154,10 +154,11 @@ def convert_ulaw_to_wave():
         nlp = {"sentence": text[0]}
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         nlp_response = requests.post("http://13.201.94.7:5001/get_entities", json=nlp, headers=headers)
+        x=json.load(nlp_response.text)
         response_data = {
             'data_time': datetime.now().isoformat(),
             'transcribe': text[0],
-            'nlp': json.load(nlp_response.text)
+            'nlp': x
         }
 
 
