@@ -153,7 +153,7 @@ def convert_ulaw_to_wave():
     else:
         nlp = {"sentence": text[0]}
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        nlp_response = requests.post("http://localhost:5001/get_entities", json=nlp, headers=headers)
+        nlp_response = requests.post("http://13.201.94.7:5001/get_entities", json=nlp, headers=headers)
         response_data = {
             'data_time': datetime.now().isoformat(),
             'transcribe': text[0],
