@@ -142,10 +142,24 @@ def convert_ulaw_to_wave():
     text=asr_model_en.transcribe(["output.wav"])
     #delete the file output.wav
     os.remove("output.wav")
-    response_data = {
-        'data_time': datetime.now().isoformat(),
-        'transcribe': text[0]
-    }
+    if text[0] == "":
+
+# Prepare the response JSON
+        response_data = {
+            'data_time': datetime.now().isoformat(),
+            'transcribe': text[0],
+            "nlp":{"intent":"", "entities":"", "sentiment":""}
+        }
+    else:
+        nlp = {"sentence": text[0]}
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        nlp_response = requests.post("http://localhost:5001/get_entities", json=nlp, headers=headers)
+        response_data = {
+            'data_time': datetime.now().isoformat(),
+            'transcribe': text[0],
+            'nlp': json.load(nlp_response.text)
+        }
+
 
     return jsonify(response_data)
 
@@ -164,10 +178,24 @@ def convert_ulaw_to_wave_hi():
     #delete the file output.wav
     result = nmt_model.translate([text[0]], source_lang="hi", target_lang="en")
     os.remove("output.wav")
-    response_data = {
-        'data_time': datetime.now().isoformat(),
-        'transcribe': result[0]
-    }
+    if text[0] == "":
+
+# Prepare the response JSON
+        response_data = {
+            'data_time': datetime.now().isoformat(),
+            'transcribe': text[0],
+            "nlp":{"intent":"", "entities":"", "sentiment":""}
+        }
+    else:
+        nlp = {"sentence": result[0]}
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        nlp_response = requests.post("http://localhost:5001/get_entities", json=nlp, headers=headers)
+        response_data = {
+            'data_time': datetime.now().isoformat(),
+            'transcribe': result[0],
+            'nlp': json.load(nlp_response.text)
+        }
+
 
     return jsonify(response_data)
 
