@@ -9,7 +9,12 @@ import wave
 import json
 import nemo.collections.nlp as nemo_nlp
 app = Flask(__name__)
-
+import torch
+if torch.cuda.is_available():
+            device = [0]  # use 0th CUDA device
+            accelerator = 'gpu'
+            map_location = torch.device('cuda:0')
+            print('Using GPU')
 
 def convert_file(file):
     # Decode and combine u-law fragments into a single bytearray
