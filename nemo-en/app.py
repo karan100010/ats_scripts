@@ -8,6 +8,7 @@ import json
 import wave
 import json
 import nemo.collections.nlp as nemo_nlp
+import random
 app = Flask(__name__)
 
 
@@ -23,11 +24,14 @@ def convert_file(file):
     # pcm_data = audioop.ulaw2lin(file, 2)
 
     # Save the combined PCM data to a WAV file
-    with wave.open('output.wav', 'wb') as wf:
+    #add a four digit random number to the file name
+    file='output{}.wav'.format(random.randint(1000, 9999))
+    with wave.open(file, 'wb') as wf:
         wf.setnchannels(1)  # Adjust based on the number of channels in your audio
         wf.setsampwidth(2)  # 2 bytes for 16-bit audio
         wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
+    return file
 asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
 
 nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2")
@@ -139,10 +143,10 @@ def convert_ulaw_to_wave():
 
     print(type(ulaw_fragments))
     #writ ulaw_fragments to a json file
-    convert_file(ulaw_fragments)
-    text=asr_model_en.transcribe(["output.wav"])
+    x=convert_file(ulaw_fragments)
+    text=asr_model_en.transcribe([x])
     #delete the file output.wav
-    os.remove("output.wav")
+    os.remove(x)
     if text[0] == "":
 
 # Prepare the response JSON
@@ -175,11 +179,11 @@ def convert_ulaw_to_wave_hi():
 
     print(type(ulaw_fragments))
     #writ ulaw_fragments to a json file
-    convert_file(ulaw_fragments)
-    text=asr_model_hi.transcribe(["output.wav"])
+    x=convert_file(ulaw_fragments)
+    text=asr_model_hi.transcribe([x])
     #delete the file output.wav
     result = nmt_model.translate([text[0]], source_lang="hi", target_lang="en")
-    os.remove("output.wav")
+    os.remove(x)
     if text[0] == "":
 
 # Prepare the response JSON
@@ -191,7 +195,7 @@ def convert_ulaw_to_wave_hi():
     else:
         nlp = {"sentence": result[0]}
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        nlp_response = requests.post("http://13.233.13.19:5001/get_entities", json=nlp, headers=headers)
+        nlp_response = requests.post("http://3.109.152.180:5001/get_entities", json=nlp, headers=headers)
         response_data = {
             'data_time': datetime.now().isoformat(),
             'transcribe': result[0],
