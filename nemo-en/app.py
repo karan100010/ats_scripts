@@ -30,6 +30,8 @@ def convert_file(file):
         wf.setsampwidth(2)  # 2 bytes for 16-bit audio
         wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
+
+        
 asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
 
 nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2")
