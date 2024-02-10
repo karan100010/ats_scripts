@@ -25,13 +25,11 @@ def convert_file(file):
 
     # Save the combined PCM data to a WAV file
     #add a four digit random number to the file name
-    file='output{}.wav'.format(random.randint(1000, 9999))
-    with wave.open(file, 'wb') as wf:
+    with wave.open('output.wav'.format, 'wb') as wf:
         wf.setnchannels(1)  # Adjust based on the number of channels in your audio
         wf.setsampwidth(2)  # 2 bytes for 16-bit audio
         wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
-    return file
 asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
 
 nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2")
@@ -143,10 +141,10 @@ def convert_ulaw_to_wave():
 
     print(type(ulaw_fragments))
     #writ ulaw_fragments to a json file
-    x=convert_file(ulaw_fragments)
-    text=asr_model_en.transcribe([x])
+    convert_file(ulaw_fragments)
+    text=asr_model_en.transcribe(["output.wav"])
     #delete the file output.wav
-    os.remove(x)
+    os.remove("output.wav")
     if text[0] == "":
 
 # Prepare the response JSON
@@ -179,11 +177,11 @@ def convert_ulaw_to_wave_hi():
 
     print(type(ulaw_fragments))
     #writ ulaw_fragments to a json file
-    x=convert_file(ulaw_fragments)
-    text=asr_model_hi.transcribe([x])
+    convert_file(ulaw_fragments)
+    text=asr_model_hi.transcribe(["output.wav"])
     #delete the file output.wav
     result = nmt_model.translate([text[0]], source_lang="hi", target_lang="en")
-    os.remove(x)
+    os.remove("output.wav")
     if text[0] == "":
 
 # Prepare the response JSON
