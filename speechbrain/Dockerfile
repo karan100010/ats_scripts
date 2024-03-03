@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the "app.py" file into the "speechbrain" folder
 COPY ./app.py /speechbrain
-COPY ./model /speechbrain
+COPY ./model /speechbrain/model
 RUN ls -l model/
 
 # Expose the necessary port
