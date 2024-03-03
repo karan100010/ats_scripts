@@ -122,7 +122,7 @@ def transcribe_en():
     else:
         nlp = {"sentence": transcription[0]}
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        nlp_response = requests.post("http://3.109.152.180:5001/get_entities", json=nlp, headers=headers)
+        nlp_response = requests.post("http://localhost:5001/get_entities", json=nlp, headers=headers)
         response_data = {
             'data_time': datetime.now().isoformat(),
             'transcribe': transcription[0],
