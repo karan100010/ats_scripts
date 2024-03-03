@@ -14,7 +14,7 @@ nlp.add_pipe('spacytextblob')
 
 
 # Load the saved model
-model_path = "./intent-model-albert-retrained"
+model_path = "./model/yes-no-maybe-intent-model/model"
 model = AlbertForSequenceClassification.from_pretrained(model_path)
 
 # Load the tokenizer

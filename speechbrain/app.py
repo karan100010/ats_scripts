@@ -28,7 +28,7 @@ def convert_file(file):
     #os.system("x -r 16000 -e unsigned -b 8 -c 1 output.wav output.wav")  # Convert the audio to 16kHz sample rate
 
 # Load the language identification model
-model_path = "model/epaca/1988/save/CKPT+2024-01-09+16-55-38+00"
+model_path = "model/epaca/1988/save/CKPT+2024-02-15+14-26-50+00/"
 print(os.path.exists(model_path))
 model = SpeakerRecognition.from_hparams(source=model_path)
 
