@@ -53,6 +53,7 @@ def predict_language():
 
         # Perform language identification
         prediction = model.classify_file(filepath)
+        os.remove(filepath)
 
         # Prepare response
         response = {
