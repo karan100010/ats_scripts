@@ -9,6 +9,7 @@ import wave
 import json
 import nemo.collections.nlp as nemo_nlp
 import random
+
 app = Flask(__name__)
 
 
@@ -142,6 +143,7 @@ def convert_ulaw_to_wave():
     print(type(ulaw_fragments))
     #writ ulaw_fragments to a json file
     convert_file(ulaw_fragments)
+    
     text=asr_model_en.transcribe(["output.wav"])
     #delete the file output.wav
     os.remove("output.wav")
@@ -193,7 +195,7 @@ def convert_ulaw_to_wave_hi():
     else:
         nlp = {"sentence": result[0]}
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        nlp_response = requests.post("http://3.109.152.180:5001/get_entities", json=nlp, headers=headers)
+        nlp_response = requests.post("http://65.2.152.189:5000/predict", json=nlp, headers=headers)
         response_data = {
             'data_time': datetime.now().isoformat(),
             'transcribe': result[0],
