@@ -21,7 +21,7 @@ model = AlbertForSequenceClassification.from_pretrained(model_path)
 tokenizer = AlbertTokenizer.from_pretrained("albert-base-v2")
 
 # Intent Labels
-c2l = ClassLabel(num_classes=28, names=['positive', 'negative', 'maybe'])
+c2l = ClassLabel(num_classes=3, names=['positive', 'negative', 'maybe'])
 
     
 app = Flask(__name__)
