@@ -2,7 +2,7 @@ import spacy
 from functions import get_entities, get_sentiment
 from flask import Flask, request, jsonify
 
-#from spacytextblob.spacytextblob import SpacyTextBlob
+from spacytextblob.spacytextblob import SpacyTextBlob
 from transformers import AlbertForSequenceClassification, AlbertTokenizer
 from datasets import ClassLabel
 import torch
