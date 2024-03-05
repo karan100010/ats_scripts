@@ -14,7 +14,7 @@ services:
     container_name: nemo-en
     networks:
       - net
-        deploy:
+    deploy:
       resources:
         reservations:
           devices:
