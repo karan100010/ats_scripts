@@ -1,26 +1,20 @@
-version: '3.6'
+version: '3.8'
 
 services:
-  my-mongodb:
-    image: mongo:4.2.3-bionic
-    container_name: my-mongodb
-    ports:
-      - 27017:27017
-    build:
-      context: .
-      dockerfile: Dockerfile
+  mongodb:
+    image: mongo:latest
+    container_name: my_mongodb_container
     environment:
-      - MONGO_INITDB_DATABASE=test
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"
     volumes:
-      # seeding scripts
-      # named volumes
-      - mongodb:/data/db
-      #- mongoconfig:/data/configdb
-    networks:
-      - mongo_net
-  volumes:
-    mongodb:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
+    driver: local
+
 
   
