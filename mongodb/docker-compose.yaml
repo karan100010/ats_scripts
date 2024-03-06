@@ -13,13 +13,15 @@ services:
     container_name: my-mongodb
     ports:
       - 27017:27017
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       - MONGO_INITDB_DATABASE=test
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin
     volumes:
       # seeding scripts
-      - ./mongo-entrypoint:/docker-entrypoint-initdb.d
       # named volumes
       - mongodb:/data/db
       - mongoconfig:/data/configdb
