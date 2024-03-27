@@ -172,7 +172,7 @@ def transcribe_en():
 def x():
     thread = threading.Thread(target=convert_ulaw_to_wave) 
     thread.start()
-    return
+    return "task started"
 
 @app.route('/convert_hi', methods=['POST'])
 def convert_ulaw_to_wave_hi():
