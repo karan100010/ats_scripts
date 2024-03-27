@@ -13,41 +13,7 @@ import threading
 
 app = Flask(__name__)
 
-def convert_ulaw_to_wave():
 
-    print(request.get_data())
-    ulaw_fragments  = request.get_data()
-    print(ulaw_fragments)
-    #convert ulaw_fragment variable to a array
-
-    print(type(ulaw_fragments))
-    #writ ulaw_fragments to a json file
-    convert_file(ulaw_fragments)
-    
-    text=asr_model_en.transcribe(["output.wav"])
-    #delete the file output.wav
-    os.remove("output.wav")
-    if text[0] == "":
-
-# Prepare the response JSON
-        response_data = {
-            'data_time': datetime.now().isoformat(),
-            'transcribe': text[0],
-            "nlp":{"intent":"", "entities":"", "sentiment":""}
-        }
-    else:
-        nlp = {"sentence": text[0]}
-        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        nlp_response = requests.post("http://172.16.1.209:5001/get_entities", json=nlp, headers=headers)
-        x=json.loads(nlp_response.text)
-        response_data = {
-            'data_time': datetime.now().isoformat(),
-            'transcribe': text[0],
-            'nlp': x
-        }
-
-
-    return jsonify(response_data)
 
 
 def convert_file(file):
@@ -170,6 +136,41 @@ def transcribe_en():
 
 @app.route('/convert_en', methods=['POST'])
 def x():
+    def convert_ulaw_to_wave():
+
+        print(request.get_data())
+        ulaw_fragments  = request.get_data()
+        print(ulaw_fragments)
+        #convert ulaw_fragment variable to a array
+
+        print(type(ulaw_fragments))
+        #writ ulaw_fragments to a json file
+        convert_file(ulaw_fragments)
+        
+        text=asr_model_en.transcribe(["output.wav"])
+        #delete the file output.wav
+        os.remove("output.wav")
+        if text[0] == "":
+
+    # Prepare the response JSON
+            response_data = {
+                'data_time': datetime.now().isoformat(),
+                'transcribe': text[0],
+                "nlp":{"intent":"", "entities":"", "sentiment":""}
+            }
+        else:
+            nlp = {"sentence": text[0]}
+            headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+            nlp_response = requests.post("http://172.16.1.209:5001/get_entities", json=nlp, headers=headers)
+            x=json.loads(nlp_response.text)
+            response_data = {
+                'data_time': datetime.now().isoformat(),
+                'transcribe': text[0],
+                'nlp': x
+            }
+
+
+        return jsonify(response_data)
     thread = threading.Thread(target=convert_ulaw_to_wave) 
     thread.start()
     return "task started"
@@ -212,5 +213,5 @@ def convert_ulaw_to_wave_hi():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5002,threaded=True) 
+    app.run(host='0.0.0.0', port=5002) 
 
