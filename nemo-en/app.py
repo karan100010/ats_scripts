@@ -9,9 +9,45 @@ import wave
 import json
 import nemo.collections.nlp as nemo_nlp
 import random
+import threading
 
 app = Flask(__name__)
 
+def convert_ulaw_to_wave():
+
+    print(request.get_data())
+    ulaw_fragments  = request.get_data()
+    print(ulaw_fragments)
+    #convert ulaw_fragment variable to a array
+
+    print(type(ulaw_fragments))
+    #writ ulaw_fragments to a json file
+    convert_file(ulaw_fragments)
+    
+    text=asr_model_en.transcribe(["output.wav"])
+    #delete the file output.wav
+    os.remove("output.wav")
+    if text[0] == "":
+
+# Prepare the response JSON
+        response_data = {
+            'data_time': datetime.now().isoformat(),
+            'transcribe': text[0],
+            "nlp":{"intent":"", "entities":"", "sentiment":""}
+        }
+    else:
+        nlp = {"sentence": text[0]}
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        nlp_response = requests.post("http://172.16.1.209:5001/get_entities", json=nlp, headers=headers)
+        x=json.loads(nlp_response.text)
+        response_data = {
+            'data_time': datetime.now().isoformat(),
+            'transcribe': text[0],
+            'nlp': x
+        }
+
+
+    return jsonify(response_data)
 
 
 def convert_file(file):
@@ -133,41 +169,9 @@ def transcribe_en():
     return jsonify(response_data)
 
 @app.route('/convert_en', methods=['POST'])
-def convert_ulaw_to_wave():
-
-    print(request.get_data())
-    ulaw_fragments  = request.get_data()
-    print(ulaw_fragments)
-    #convert ulaw_fragment variable to a array
-
-    print(type(ulaw_fragments))
-    #writ ulaw_fragments to a json file
-    convert_file(ulaw_fragments)
-    
-    text=asr_model_en.transcribe(["output.wav"])
-    #delete the file output.wav
-    os.remove("output.wav")
-    if text[0] == "":
-
-# Prepare the response JSON
-        response_data = {
-            'data_time': datetime.now().isoformat(),
-            'transcribe': text[0],
-            "nlp":{"intent":"", "entities":"", "sentiment":""}
-        }
-    else:
-        nlp = {"sentence": text[0]}
-        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        nlp_response = requests.post("http://172.16.1.209:5001/get_entities", json=nlp, headers=headers)
-        x=json.loads(nlp_response.text)
-        response_data = {
-            'data_time': datetime.now().isoformat(),
-            'transcribe': text[0],
-            'nlp': x
-        }
-
-
-    return jsonify(response_data)
+def x():
+    thread = threading.Thread(target=convert_ulaw_to_wave) 
+    thread.start()
 
 @app.route('/convert_hi', methods=['POST'])
 def convert_ulaw_to_wave_hi():
