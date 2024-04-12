@@ -136,10 +136,10 @@ def transcribe_en():
 
 @app.route('/convert_en', methods=['POST'])
 
-def convert_ulaw_to_wave(data):
+def convert_ulaw_to_wave():
 
-     #   print(request.get_data())
-        ulaw_fragments  = data
+        print(request.get_data())
+        ulaw_fragments  = request.get_data()
         print(ulaw_fragments)
         #convert ulaw_fragment variable to a array
 
