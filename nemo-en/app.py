@@ -176,42 +176,47 @@ def x():
     return "task started"
 
 @app.route('/convert_hi', methods=['POST'])
-def convert_ulaw_to_wave_hi():
+def y():
+    def convert_ulaw_to_wave_hi(data):
 
-    print(request.get_data())
-    ulaw_fragments  = request.get_data()
-    print(ulaw_fragments)
-    #convert ulaw_fragment variable to a array
+        print(request.get_data())
+        ulaw_fragments  = request.get_data()
+        print(ulaw_fragments)
+        #convert ulaw_fragment variable to a array
 
-    print(type(ulaw_fragments))
-    #writ ulaw_fragments to a json file
-    convert_file(ulaw_fragments)
-    text=asr_model_hi.transcribe(["output.wav"])
-    #delete the file output.wav
-    result = nmt_model.translate([text[0]], source_lang="hi", target_lang="en")
-    os.remove("output.wav")
-    if text[0] == "":
+        print(type(ulaw_fragments))
+        #writ ulaw_fragments to a json file
+        convert_file(ulaw_fragments)
+        text=asr_model_hi.transcribe(["output.wav"])
+        #delete the file output.wav
+        result = nmt_model.translate([text[0]], source_lang="hi", target_lang="en")
+        os.remove("output.wav")
+        if text[0] == "":
 
-# Prepare the response JSON
-        response_data = {
-            'data_time': datetime.now().isoformat(),
-            'transcribe': text[0],
-            "nlp":{"intent":"", "entities":"", "sentiment":""}
-        }
-    else:
-        nlp = {"sentence": result[0]}
-        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        nlp_response = requests.post("http://172.16.1.209:5001/get_entities", json=nlp, headers=headers)
-        response_data = {
-            'data_time': datetime.now().isoformat(),
-            'transcribe': result[0],
-            'nlp': json.loads(nlp_response.text)
-        }
+    # Prepare the response JSON
+            response_data = {
+                'data_time': datetime.now().isoformat(),
+                'transcribe': text[0],
+                "nlp":{"intent":"", "entities":"", "sentiment":""}
+            }
+        else:
+            nlp = {"sentence": result[0]}
+            headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+            nlp_response = requests.post("http://172.16.1.209:5001/get_entities", json=nlp, headers=headers)
+            response_data = {
+                'data_time': datetime.now().isoformat(),
+                'transcribe': result[0],
+                'nlp': json.loads(nlp_response.text)
+            }
 
 
-    return jsonify(response_data)
+        return jsonify(response_data)
+    thread = threading.Thread(target=convert_ulaw_to_wave_hi,args=(request.get_data(),))
+    thread.start()
+    return "task started"
 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002) 
+    
 
