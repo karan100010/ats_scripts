@@ -135,8 +135,8 @@ def transcribe_en():
     return jsonify(response_data)
 
 @app.route('/convert_en', methods=['POST'])
-def x():
-    def convert_ulaw_to_wave(data):
+
+def convert_ulaw_to_wave(data):
 
      #   print(request.get_data())
         ulaw_fragments  = data
@@ -171,9 +171,9 @@ def x():
 
 
         return jsonify(response_data)
-    thread = threading.Thread(target=convert_ulaw_to_wave,args=(request.get_data(),)) 
-    thread.start()
-    return "task started"
+    # thread = threading.Thread(target=convert_ulaw_to_wave,args=(request.get_data(),)) 
+    # thread.start()
+    # return "task started"
 
 @app.route('/convert_hi', methods=['POST'])
 def y():
