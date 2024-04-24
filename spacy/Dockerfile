@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements-intent.txt
 # Copy the "app.py" file into the "speechbrain" folder
 COPY ./app.py /spacy
 COPY ./functions.py /spacy
-COPY ./yes-no-maybe-intent-model/model /spacy/model
+COPY ./model-2/model /spacy/model
 RUN ls -l model/
 
 
