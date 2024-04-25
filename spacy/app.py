@@ -5,7 +5,6 @@ from flask import Flask, request, jsonify
 from spacytextblob.spacytextblob import SpacyTextBlob
 from transformers import AlbertForSequenceClassification, AlbertTokenizer
 from datasets import ClassLabel
-import torch
 
 
 nlp = spacy.load("en_core_web_trf", disable=[
@@ -37,6 +36,8 @@ def api_status():
 
 @app.route('/get_entities', methods=['POST'])
 def entities():
+    import torch
+    import torch.nn.functional as F
     try:
         text = request.json['sentence']
     except:
@@ -56,8 +57,7 @@ def entities():
     logits = outputs.logits
     predicted_class = torch.argmax(logits, dim=1).item()
     confidence = torch.max(logits).item()
-    import torch
-    import torch.nn.functional as F
+    
 
     def softmax(logits):
         return F.softmax(logits, dim=1)
