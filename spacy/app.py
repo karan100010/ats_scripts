@@ -19,9 +19,9 @@ model = AlbertForSequenceClassification.from_pretrained(model_path)
 
 # Load the tokenizer
 tokenizer = AlbertTokenizer.from_pretrained("albert-base-v2")
-
+label_classes = ["yes_intent", "no_intent", "call_back_later_intent", "contact_human_agent_intent", "other_intent"]
 # Intent Labels
-c2l = ClassLabel(num_classes=3, names=['positive', 'negative', 'maybe'])
+c2l = ClassLabel(num_classes=len(label_classes), names=label_classes)
 
     
 app = Flask(__name__)
@@ -55,10 +55,33 @@ def entities():
     # Get the predicted class
     logits = outputs.logits
     predicted_class = torch.argmax(logits, dim=1).item()
+    confidence = torch.max(logits).item()
+    import torch
+    import torch.nn.functional as F
+
+    def softmax(logits):
+        return F.softmax(logits, dim=1)
+
+    softmaxed_logits = softmax(logits)
+    print(f"Normalized Logits: ", {softmaxed_logits})
+    print(torch.argmax(softmaxed_logits, dim=1).item())
+
+
+
+    THRESHOLD = 3.6
+    if predicted_class == 2:
+        THRESHOLD = 2
+
+    if confidence < THRESHOLD:
+        print("other_intent")
+        intent="other_intent"
+    else:
+        print(c2l.int2str(predicted_class))
+        intent = c2l.int2str(predicted_class)
 
     return jsonify({"entities": entities,
                     "sentiment": sentiment,
-                    "intent": c2l.int2str(predicted_class)
+                    "intent": intent
                     }), 200
 
 
