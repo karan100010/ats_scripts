@@ -30,7 +30,7 @@ def convert_file(file):
     with wave.open('output.wav', 'wb') as wf:
         wf.setnchannels(1)  # Adjust based on the number of channels in your audio
         wf.setsampwidth(2)  # 2 bytes for 16-bit audio
-        wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
+        wf.setframerate(7000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
         
 asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
@@ -138,7 +138,6 @@ def transcribe_en():
 
 def convert_ulaw_to_wave():
 
-        print(request.get_data())
         ulaw_fragments  = request.get_data()
         print(ulaw_fragments)
         #convert ulaw_fragment variable to a array
