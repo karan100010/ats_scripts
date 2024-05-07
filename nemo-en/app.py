@@ -22,15 +22,18 @@ def convert_file(file):
     # combined_pcm_data = bytearray()
 
     # ulaw_data = bytes(file['data']['data'])
-
+    # upsample audio to 16kHz
+    # ulaw_data = audioop.ulaw2ulaw(ulaw_data, 2)
+    # combined_pcm_data.extend(ulaw_data)
+    
     # Decode the u-law data to 16-bit linear PCM
     # pcm_data = audioop.ulaw2lin(file, 2)
-
+    
     # Save the combined PCM data to a WAV file
     with wave.open('output.wav', 'wb') as wf:
         wf.setnchannels(1)  # Adjust based on the number of channels in your audio
         wf.setsampwidth(2)  # 2 bytes for 16-bit audio
-        wf.setframerate(7000)  # Adjust based on the sample rate of your u-law audio
+        wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
         
 asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
