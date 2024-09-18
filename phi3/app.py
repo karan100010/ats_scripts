@@ -1,22 +1,64 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-from vllm import Phi3Model
+from flask import Flask, request, jsonify
+from vllm import LLM, SamplingParams
+from PIL import Image
+import io
+import base64
 
-app = FastAPI()
+# Initialize Flask app
+app = Flask(__name__)
 
-# Initialize the phi3 model (using vllm)
-model = Phi3Model()
+# Initialize model (global for reuse)
+model_path = "microsoft/Phi-3-vision-128k-instruct"
 
-class GenerateTextRequest(BaseModel):
-    prompt: str
-    max_tokens: int = 50
+llm = LLM(
+    model=model_path,
+    trust_remote_code=True,
+    max_num_seqs=5,  # Adjust as per GPU capacity
+)
 
-class GenerateTextResponse(BaseModel):
-    generated_text: str
+# Function to handle base64 image decoding
+def decode_image(image_base64):
+    image_data = base64.b64decode(image_base64)
+    return Image.open(io.BytesIO(image_data))
 
-@app.post("/generate-text", response_model=GenerateTextResponse)
-async def generate_text(request: GenerateTextRequest):
-    # Generate text using the phi3 model from vllm
-    generated = model.generate(prompt=request.prompt, max_tokens=request.max_tokens)
-    
-    return GenerateTextResponse(generated_text=generated)
+@app.route('/generate_text', methods=['POST'])
+def generate_text():
+    try:
+        # Extract data from POST request
+        data = request.get_json()
+
+        if 'image_base64' not in data:
+            return jsonify({"error": "Image data missing"}), 400
+
+        # Decode image
+        image_base64 = data['image_base64']
+        image = decode_image(image_base64)
+
+        # Prepare the prompt
+        prompt = "<|user|>\n<|image_1|>\nWhat is the season?<|end|>\n<|assistant|>\n"
+
+        # Sampling parameters
+        sampling_params = SamplingParams(temperature=0, max_tokens=64)
+
+        # Generate outputs
+        outputs = llm.generate(
+            {
+                "prompt": prompt,
+                "multi_modal_data": {
+                    "image": image
+                },
+            },
+            sampling_params=sampling_params
+        )
+
+        # Collect and return the generated text
+        generated_texts = [o.outputs[0].text for o in outputs]
+
+        return jsonify({"generated_texts": generated_texts})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Run the Flask app
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
