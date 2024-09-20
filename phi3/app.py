@@ -8,7 +8,7 @@ import base64
 app = Flask(__name__)
 
 # Initialize model (global for reuse)
-model_path = "microsoft/Phi-3-vision-128k-instruct"
+model_path = "microsoft/Phi-3-mini-4k-instruct"
 
 llm = LLM(
     model=model_path,
