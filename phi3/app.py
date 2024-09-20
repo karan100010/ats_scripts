@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Initialize model (global for reuse)
 model_path = "microsoft/Phi-3-mini-4k-instruct"
-llm = LLM(model=model_path)
+llm = LLM(model=model_path,quantization="awq")
 
 @app.route('/generate_text', methods=['POST'])
 def generate_text():
