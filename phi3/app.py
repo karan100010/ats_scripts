@@ -5,7 +5,7 @@ from vllm import LLM, SamplingParams
 app = Flask(__name__)
 
 # Initialize model (global for reuse)
-model_path = "google/gemma-2b"
+model_path = "microsoft/Phi-3-mini-4k-instruct"
 llm = LLM(model=model_path)
 
 @app.route('/generate_text', methods=['POST'])
