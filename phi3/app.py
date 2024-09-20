@@ -20,7 +20,7 @@ def generate_text():
         input_text = data['prompt']
         
         # Prepare the prompt
-        prompt = f"<|user|>\n{input_text}<|end|>\n<|assistant|>\n"
+        prompt = f"<|system|>you are a call center operator. And you will give reply in json with the following parameters intent, language, appropriate answer and next step \n<|user|>\n{input_text}<|end|>\n<|assistant|>\n"
         
         # Sampling parameters
         sampling_params = SamplingParams(temperature=0, max_tokens=64)
