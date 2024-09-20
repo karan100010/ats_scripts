@@ -12,8 +12,7 @@ model_path = "microsoft/Phi-3-mini-4k-instruct"
 
 llm = LLM(
     model=model_path,
-    trust_remote_code=True,
-    max_num_seqs=5,  # Adjust as per GPU capacity
+   
 )
 
 # Function to handle base64 image decoding
@@ -61,4 +60,4 @@ def generate_text():
 
 # Run the Flask app
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5001)
