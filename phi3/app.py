@@ -13,7 +13,7 @@ def generate_text():
     try:
         # Extract data from POST request
         data = request.get_json()
-        if 'input_text' not in data:
+        if 'prompt' not in data:
             return jsonify({"error": "Input text missing"}), 400
         
         # Get the input text
