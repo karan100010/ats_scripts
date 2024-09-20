@@ -17,7 +17,7 @@ def generate_text():
             return jsonify({"error": "Input text missing"}), 400
         
         # Get the input text
-        input_text = data['input_text']
+        input_text = data['prompt']
         
         # Prepare the prompt
         prompt = f"<|user|>\n{input_text}<|end|>\n<|assistant|>\n"
