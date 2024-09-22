@@ -13,8 +13,8 @@ model_path = "microsoft/Phi-3-mini-4k-instruct"
 llm = LLM(
     model=model_path,
     trust_remote_code=True,
-    dtype="half",  # This will use FP16
-    quantization="awq",  # Use AWQ quantization
+    # dtype="half",  # This will use FP16
+    # quantization="awq",  # Use AWQ quantization
     gpu_memory_utilization=0.7 # Adjust as needed
 )
 
