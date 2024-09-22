@@ -1,12 +1,22 @@
 from flask import Flask, request, jsonify
 from vllm import LLM, SamplingParams
+import torch
 
 # Initialize Flask app
 app = Flask(__name__)
 
 # Initialize model (global for reuse)
 model_path = "microsoft/Phi-3-mini-4k-instruct"
-llm = LLM(model=model_path)
+# Quantization configuration
+quantization_config = {
+    "load_in_4bit": True,
+    "bnb_4bit_compute_dtype": torch.float16,
+    "bnb_4bit_use_double_quant": True,
+    "bnb_4bit_quant_type": "nf4"
+}
+
+# Initialize the quantized model
+llm = LLM(model=model_path, quantization_config=quantization_config, trust_remote_code=True)
 
 @app.route('/generate_text', methods=['POST'])
 def generate_text():
