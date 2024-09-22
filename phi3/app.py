@@ -8,15 +8,16 @@ app = Flask(__name__)
 # Initialize model (global for reuse)
 model_path = "microsoft/Phi-3-mini-4k-instruct"
 # Quantization configuration
-quantization_config = {
-    "load_in_4bit": True,
-    "bnb_4bit_compute_dtype": torch.float16,
-    "bnb_4bit_use_double_quant": True,
-    "bnb_4bit_quant_type": "nf4"
-}
 
 # Initialize the quantized model
-llm = LLM(model=model_path, quantization_config=quantization_config, trust_remote_code=True)
+llm = LLM(
+    model=model_path,
+    trust_remote_code=True,
+    dtype="half",  # This will use FP16
+    quantization="awq",  # Use AWQ quantization
+    gpu_memory_utilization=0.7 # Adjust as needed
+)
+
 
 @app.route('/generate_text', methods=['POST'])
 def generate_text():
