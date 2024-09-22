@@ -15,7 +15,7 @@ llm = LLM(
     trust_remote_code=True,
     # dtype="half",  # This will use FP16
     # quantization="awq",  # Use AWQ quantization
-    gpu_memory_utilization=0.7 # Adjust as needed
+    gpu_memory_utilization=0.5 # Adjust as needed
 )
 
 
