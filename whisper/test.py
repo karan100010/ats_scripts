@@ -11,7 +11,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 def main():
     # Load the Whisper medium model
-    model = whisper.load_model("small", device=device, fp16=(device == "cuda"))
+    model = whisper.load_model("small", device=device)
 
     # Check if a file path is provided as a command-line argument
     if len(sys.argv) > 1:
