@@ -1,23 +1,26 @@
 from flask import Flask, request, jsonify
-from vllm import LLM, SamplingParams
+import lmdeploy
+from lmdeploy.model import Model
+from lmdeploy.sampler import Sampler
 import torch
 
 # Initialize Flask app
 app = Flask(__name__)
 
-# Initialize model (global for reuse)
+# Model path and quantization configurations
 model_path = "microsoft/Phi-3-mini-4k-instruct"
-# Quantization configuration
 
-# Initialize the quantized model
-llm = LLM(
-    model=model_path,
-    trust_remote_code=True,
-    # dtype="half",  # This will use FP16
-    # quantization="awq",  # Use AWQ quantization
-    gpu_memory_utilization=0.5 # Adjust as needed
+# Initialize model with lmdeploy
+model = Model(
+    model_path=model_path,
+    use_quantization=True,  # Enable quantization, if needed
+    quantization_method="awq",  # Quantization method
+    dtype="fp16",  # Data type
+    gpu_memory_utilization=0.5  # GPU memory utilization
 )
 
+# Set up a Sampler instance
+sampler = Sampler(model=model, temperature=0, max_tokens=64)
 
 @app.route('/generate_text', methods=['POST'])
 def generate_text():
@@ -33,15 +36,12 @@ def generate_text():
         # Prepare the prompt
         prompt = f"<|system|>you are a call center operator. And you will give reply in json with the following parameters intent, language, appropriate answer and next step \n<|user|>\n{input_text}<|end|>\n<|assistant|>\n"
         
-        # Sampling parameters
-        sampling_params = SamplingParams(temperature=0, max_tokens=64)
-        
-        # Generate outputs
-        outputs = llm.generate(prompt, sampling_params=sampling_params)
+        # Generate outputs using the sampler
+        generated_output = sampler.generate(prompt)
         
         # Collect and return the generated text
-        generated_texts = [o.outputs[0].text for o in outputs]
-        return jsonify({"generated_texts": generated_texts})
+        generated_text = generated_output.text
+        return jsonify({"generated_texts": [generated_text]})
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -49,4 +49,3 @@ def generate_text():
 # Run the Flask app
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
-
