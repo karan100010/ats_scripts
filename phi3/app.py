@@ -23,6 +23,7 @@ def generate():
 
     # Get the response from the model
     response = pipe([prompt])
+    print(response)
 
     # Return the response as JSON
     return jsonify({'response': response[0]})
