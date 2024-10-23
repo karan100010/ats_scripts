@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import lmdeploy
-from lmdeploy import LM
+from lmdeploy.model import LLM
 import torch
 
 # Initialize Flask app
@@ -10,7 +10,7 @@ app = Flask(__name__)
 model_path = "microsoft/Phi-3-mini-4k-instruct"
 
 # Initialize model with lmdeploy
-model = LM(
+model = LLM(
     model_path=model_path,
     use_quantization=True,  # Enable quantization, if needed
     quantization_method="awq",  # Quantization method
@@ -45,4 +45,3 @@ def generate_text():
 # Run the Flask app
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
-
