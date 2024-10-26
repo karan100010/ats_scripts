@@ -162,7 +162,8 @@ def convert_ulaw_to_wave():
             "messages": [{
                 "role":"system","content": "you are a call center exicitve that gives short cansise answers politly",
                 "role": "user", "content": text[0]}],
-            "temperature": 0.7
+            "temperature": 0.7,
+            "max_tokens": 20 
         }).content
         
         json_string = a.decode('utf-8')
