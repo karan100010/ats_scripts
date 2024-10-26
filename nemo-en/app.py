@@ -157,7 +157,7 @@ def convert_ulaw_to_wave():
         os.remove(file)
 
     #     if text[0] == "":
-        a=requests.post("http://172.16.1.209:23333/v1/chat/completions",json={
+        a=requests.post("http://172.16.1.209:23333/v1/completions",json={
             "model": "microsoft/Phi-3.5-mini-instruct",
             "messages": [{
                 "role":"system","content": "you are a call center exicitve that gives short cansise answers politly",
