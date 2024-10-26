@@ -161,7 +161,7 @@ def convert_ulaw_to_wave():
             "model": "microsoft/Phi-3.5-mini-instruct",
             "messages": [{
                 "role":"system","content": "you are a call center exicitve that gives short cansise answers politly",
-                "role": "user", "content": text[0]} + " answer this query in less then 3 sentences"],
+                "role": "user", "content": text[0] + " answer this query in less then 3 sentences"}],
             "temperature": 0.9,
           #  "max_tokens": 20 
         }).content
