@@ -163,7 +163,7 @@ def convert_ulaw_to_wave():
                 "role":"system","content": "you are a call center exicitve that gives short cansise answers politly",
                 "role": "user", "content": text[0]} + " answer this query in less then 3 sentences"],
             "temperature": 0.9,
-            "max_tokens": 20 
+          #  "max_tokens": 20 
         }).content
         
         json_string = a.decode('utf-8')
