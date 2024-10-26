@@ -164,9 +164,12 @@ def convert_ulaw_to_wave():
                 "role": "user", "content": text[0]}],
             "temperature": 0.7
         })
-       
+        json_string = a.decode('utf-8')
+        data=json.loads(json_string)
+
+      
     
-        response_data={"response":a["message"]["content"]}
+        response_data={"response":data["choices"][0]["message"]["content"]}
 
     # # Prepare the response JSON
     #         response_data = {
