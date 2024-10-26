@@ -160,7 +160,7 @@ def convert_ulaw_to_wave():
         a=requests.post("http://172.16.1.209:23333/v1/chat/completions",json={
             "model": "microsoft/Phi-3.5-mini-instruct",
             "messages": [{
-                "role":"system","content": "repeat whatever user has said if user says noting ask them to give input politely",
+                "role":"system","content": "you are a call center exicitve that gives short cansise answers politly",
                 "role": "user", "content": text[0]}],
             "temperature": 0.7
         }).content
