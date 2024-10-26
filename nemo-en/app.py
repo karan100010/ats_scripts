@@ -163,7 +163,8 @@ def convert_ulaw_to_wave():
                 "role":"system","content": "repeat whatever user has said if you says noting ask them to give input politely",
                 "role": "user", "content": text[0]}],
             "temperature": 0.7
-        })
+        }).content
+        
         json_string = a.decode('utf-8')
         data=json.loads(json_string)
 
