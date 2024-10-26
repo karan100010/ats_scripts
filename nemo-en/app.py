@@ -144,7 +144,7 @@ def transcribe_en():
 def convert_ulaw_to_wave():
 
         ulaw_fragments  = request.get_data()
-        print(ulaw_fragments)
+     #   print(ulaw_fragments)
         #convert ulaw_fragment variable to a array
 
         print(type(ulaw_fragments))
@@ -153,25 +153,37 @@ def convert_ulaw_to_wave():
         
         text=asr_model_en.transcribe([file])
         #delete the file output.wav
-        os.remove(file)
-        if text[0] == "":
 
-    # Prepare the response JSON
-            response_data = {
-                'data_time': datetime.now().isoformat(),
-                'transcribe': text[0],
-                "nlp":{"intent":"", "entities":"", "sentiment":""}
-            }
-        else:
-            nlp = {"sentence": text[0]}
-            headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-            nlp_response = requests.post("http://172.16.1.209:5001/get_entities", json=nlp, headers=headers)
-            x=json.loads(nlp_response.text)
-            response_data = {
-                'data_time': datetime.now().isoformat(),
-                'transcribe': text[0],
-                'nlp': x
-            }
+        os.remove(file)
+
+    #     if text[0] == "":
+        a=requests.post("http://172.16.1.209:23333/v1/chat/completions",json={
+            "model": "microsoft/Phi-3.5-mini-instruct",
+            "messages": [{
+                "role":"system","content": "repeat whatever user has said if you says noting ask them to give input politely",
+                "role": "user", "content": text[0]}],
+            "temperature": 0.7
+        })
+       
+    
+        response_data={"response":a["message"]["content"]}
+
+    # # Prepare the response JSON
+    #         response_data = {
+    #             'data_time': datetime.now().isoformat(),
+    #             'transcribe': text[0],
+    #             "nlp":{"intent":"", "entities":"", "sentiment":""}
+    #         }
+    #     else:
+    #         nlp = {"sentence": text[0]}
+    #         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    #         nlp_response = requests.post("http://172.16.1.209:5001/get_entities", json=nlp, headers=headers)
+    #         x=json.loads(nlp_response.text)
+    #         response_data = {
+    #             'data_time': datetime.now().isoformat(),
+    #             'transcribe': text[0],
+    #             'nlp': x
+    #         }
 
 
         return jsonify(response_data)
