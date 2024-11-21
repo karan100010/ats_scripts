@@ -78,7 +78,6 @@ def conversation_simulator(
         for _ in range(total_turns):
             last_reply = bot0.reply(last_reply)
             conversation_turns.append(dict(name=bot0.name, text=last_reply))
-            time.sleep(1)
             last_reply = bot1.reply(last_reply)
             conversation_turns.append(dict(name=bot1.name, text=last_reply))
         return conversation_turns
