@@ -219,9 +219,8 @@ Provide a detailed call flow script or pseudo-code that I can use to implement t
 - Recommend strategies to personalize the call flow based on the caller's input.
 - Suggest methods to improve compliance and data security when handling user input.
 - Provide guidance on handling edge cases where caller input may be unclear or incomplete.
-<|end|>
-<|user|>{text[0]}
-<|end|>
+<|system|>
+<|user|>{text[0]}<|user|>
 <|assistant|>"""
 
 
