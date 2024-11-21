@@ -32,7 +32,13 @@ def genrate_next():
             elif role == 'assistant':
                 with assistant():
                     model += f"""{content}
+
 """
+        with assistant():
+            lm += gen(name='experts', temperature=0, max_tokens=300)
+            
+        
+                    
 
 
 
