@@ -139,7 +139,7 @@ def conversation_simulator(
 bot_instructions = """You are taking part in discussions with clients as a loan recovery agent.
 Only generate text as yourself and do not prefix your reply with your name.
 Keep your answers to a couple of short sentences."""
-bot2_instructions = """You are a clinet taking to recovery agent. Speak in short single sentences """
+bot2_instructions = """You are a client taking to recovery agent. Speak in short single sentences """
 
 
 
