@@ -92,5 +92,5 @@ jardine_bot = ConversationAgent(model, "Douglas Jardine", bot_instructions, cont
 
 conversation_turns = conversation_simulator(bradman_bot, jardine_bot, total_turns=3)
 
-for turn in conversation_turns:
-    print(f"{turn['name']}: {turn['text']}\n")
+# for turn in conversation_turns:
+#     print(f"{turn['name']}: {turn['text']}\n")
