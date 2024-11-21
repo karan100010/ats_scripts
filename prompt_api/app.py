@@ -22,7 +22,61 @@ class ConversationAgent:
         self._instructions = instructions
         self._my_turns = []
         self._interlocutor_turns = []
-        self._went_first = False
+        self._went_first = True
+        self._context_turns = context_turns
+
+    @property
+    def name(self) -> str:
+        return self._name
+    
+    def reply(self, interlocutor_reply = None) -> str:
+        if interlocutor_reply is None:
+            self._my_turns = []
+            self._interlocutor_turns = []
+            self._went_first = True
+        else:
+            self._interlocutor_turns.append(interlocutor_reply)
+
+        # Get trimmed history
+        my_hist = self._my_turns[(1-self._context_turns):]
+        interlocutor_hist = self._interlocutor_turns[-self._context_turns:]
+
+        # Set up the system prompt
+        curr_model = self._chat_model
+        with system():
+            curr_model += f"Your name is {self.name}. {self._instructions}"
+            if len(interlocutor_hist) == 0:
+                curr_model += "Introduce yourself and start the conversation"
+            elif len(interlocutor_hist) == 1:
+                curr_model += "Introduce yourself before continuing the conversation"
+
+        # Replay the last few turns
+        for i in range(len(my_hist)):
+            with user():
+                curr_model += interlocutor_hist[i]
+            with assistant():
+                curr_model += my_hist[i]
+
+        if len(interlocutor_hist) > 0:
+            with user():
+                curr_model += interlocutor_hist[-1]
+
+        with assistant():
+            curr_model += gen(name='response', max_tokens=100)
+        time.sleep(2)
+
+        self._my_turns.append(curr_model['response'])
+        return curr_model['response']
+    
+
+class HumanAgent:
+    def __init__(self, chat_model, name: str, instructions: str, context_turns: int = 2):
+        self._chat_model = chat_model
+        self._name = name
+        self._instructions = instructions
+        self._my_turns = []
+        self._interlocutor_turns = []
+        self._went_first = True
         self._context_turns = context_turns
 
     @property
@@ -71,7 +125,7 @@ class ConversationAgent:
 
 def conversation_simulator(
         bot0: ConversationAgent,
-        bot1: ConversationAgent,
+        bot1: HumanAgent,
         total_turns: int = 5 ):
         conversation_turns = []
         last_reply = None
@@ -82,7 +136,9 @@ def conversation_simulator(
             conversation_turns.append(dict(name=bot1.name, text=last_reply))
         return conversation_turns
 
-bot1_instructions = """You are a recovery agent looking to recover loan from the clinet your aim is that the clinet makes the payment. Speak in short single senteces"""
+bot_instructions = """You are taking part in discussions with clients as a loan recovery agent.
+Only generate text as yourself and do not prefix your reply with your name.
+Keep your answers to a couple of short sentences."""
 bot2_instructions = """You are a clinet taking to recovery agent. Speak in short single sentences """
 
 
