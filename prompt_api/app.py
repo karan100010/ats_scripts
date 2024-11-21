@@ -7,94 +7,87 @@ from guidance import gen, select, system, user, assistant,models
 
 model=models.Transformers("microsoft/Phi-3.5-mini-instruct")
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
-@app.route('/get_reply', methods=['POST'])
-@guidance
-class LoanRecoveryAgent:
-    def __init__(self, chat_model, agent_name: str, instructions: str, context_turns: int = 2):
-        """
-        Initializes the Loan Recovery Agent.
+# @app.route('/get_reply', methods=['POST'])
+# @guidance
 
-        Args:
-            chat_model: The chat model used to generate responses.
-            agent_name: The name of the loan recovery agent.
-            instructions: Instructions for the agent's behavior and tone.
-            context_turns: Number of previous turns to retain for context.
-        """
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=5015)
+
+class ConversationAgent:
+    def __init__(self, chat_model, name: str, instructions: str, context_turns: int = 2):
         self._chat_model = chat_model
-        self._agent_name = agent_name
+        self._name = name
         self._instructions = instructions
-        self._agent_turns = []
-        self._user_turns = []
-        self._started_conversation = False
+        self._my_turns = []
+        self._interlocutor_turns = []
+        self._went_first = False
         self._context_turns = context_turns
 
     @property
-    def agent_name(self) -> str:
-        """Returns the name of the loan recovery agent."""
-        return self._agent_name
-
-    def reply(self, user_reply=None) -> str:
-        """
-        Generates a reply based on the user's input and conversation history.
-
-        Args:
-            user_reply: The user's latest message. If None, starts a new conversation.
-
-        Returns:
-            The agent's response.
-        """
-        if user_reply is None:
-            # Start a new conversation
-            self._agent_turns = []
-            self._user_turns = []
-            self._started_conversation = True
+    def name(self) -> str:
+        return self._name
+    
+    def reply(self, interlocutor_reply = None) -> str:
+        if interlocutor_reply is None:
+            self._my_turns = []
+            self._interlocutor_turns = []
+            self._went_first = True
         else:
-            # Record the user's reply
-            self._user_turns.append(user_reply)
+            self._interlocutor_turns.append(interlocutor_reply)
 
-        # Trim the history to maintain context
-        agent_history = self._agent_turns[-self._context_turns:]
-        user_history = self._user_turns[-self._context_turns:]
+        # Get trimmed history
+        my_hist = self._my_turns[(1-self._context_turns):]
+        interlocutor_hist = self._interlocutor_turns[-self._context_turns:]
 
-        # Set up the conversation model
+        # Set up the system prompt
         curr_model = self._chat_model
-        curr_model += f"Your name is {self.agent_name}. You are a professional loan recovery agent. {self._instructions} "
+        with system():
+            curr_model += f"Your name is {self.name}. {self._instructions}"
+            if len(interlocutor_hist) == 0:
+                curr_model += "Introduce yourself and start the conversation"
+            elif len(interlocutor_hist) == 1:
+                curr_model += "Introduce yourself before continuing the conversation"
 
-        # Add system instructions for starting or continuing the conversation
-        if len(user_history) == 0:
-            curr_model += "Start the conversation by introducing yourself and explaining the purpose of your call."
-        elif len(user_history) == 1:
-            curr_model += "Introduce yourself briefly before continuing the conversation."
+        # Replay the last few turns
+        for i in range(len(my_hist)):
+            with user():
+                curr_model += interlocutor_hist[i]
+            with assistant():
+                curr_model += my_hist[i]
 
-        # Replay the conversation history
-        for i in range(len(agent_history)):
-            curr_model += f"\nUser: {user_history[i]}\nAgent: {agent_history[i]}"
+        if len(interlocutor_hist) > 0:
+            with user():
+                curr_model += interlocutor_hist[-1]
 
-        if len(user_history) > 0:
-            curr_model += f"\nUser: {user_history[-1]}"
+        with assistant():
+            curr_model += gen(name='response', max_tokens=100)
+        time.sleep(2)
 
-        # Generate the agent's reply
-        curr_model += "\nAgent:"
-        agent_response = self._generate_response(curr_model)
-        self._agent_turns.append(agent_response)
-        return agent_response
+        self._my_turns.append(curr_model['response'])
+        return curr_model['response']
+    
 
-    def _generate_response(self, prompt: str) -> str:
-        """
-        Simulates generating a response from the chat model.
+def conversation_simulator(
+        bot0: ConversationAgent,
+        bot1: ConversationAgent,
+        total_turns: int = 5 ):
+        conversation_turns = []
+        last_reply = None
+        for _ in range(total_turns):
+            last_reply = bot0.reply(last_reply)
+            conversation_turns.append(dict(name=bot0.name, text=last_reply))
+            time.sleep(1)
+            last_reply = bot1.reply(last_reply)
+            conversation_turns.append(dict(name=bot1.name, text=last_reply))
+        return conversation_turns
 
-        Args:
-            prompt: The conversation prompt including instructions and history.
+bot_instructions = """You are taking part in a discussion about bodyline bowling.
+Only generate text as yourself and do not prefix your reply with your name.
+Keep your answers to a couple of short sentences."""
 
-        Returns:
-            The generated response.
-        """
-        # Replace with actual chat model call in production
-        simulated_response = f"Simulated response based on prompt: {prompt}"
-        return simulated_response
+bradman_bot = ConversationAgent(model, "Donald Bradman", bot_instructions, context_turns=5)
+jardine_bot = ConversationAgent(model, "Douglas Jardine", bot_instructions, context_turns=5)
 
-        
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5015)
+conversation_turns = conversation_simulator(bradman_bot, jardine_bot, total_turns=3)
