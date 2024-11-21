@@ -82,8 +82,8 @@ def conversation_simulator(
             conversation_turns.append(dict(name=bot1.name, text=last_reply))
         return conversation_turns
 
-bot1_instructions = """You are a recovery agent looking to recover loan from the clinet your aim is that the clinet makes the payment"""
-bot2_instructions = """You are a clinet taking to recovery agent """
+bot1_instructions = """You are a recovery agent looking to recover loan from the clinet your aim is that the clinet makes the payment. Speak in short single sernteces"""
+bot2_instructions = """You are a clinet taking to recovery agent. Speak in short single sentences """
 
 
 
