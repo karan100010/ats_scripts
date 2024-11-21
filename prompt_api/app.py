@@ -146,7 +146,7 @@ bot2_instructions = """You are a clinet taking to recovery agent. Speak in short
 bradman_bot = ConversationAgent(model, "Vinod", bot_instructions, context_turns=5)
 jardine_bot = ConversationAgent(model, "Sumit", bot2_instructions, context_turns=5)
 
-conversation_turns = conversation_simulator(bradman_bot, jardine_bot, total_turns=3)
+conversation_turns = conversation_simulator(bradman_bot, jardine_bot, total_turns=1)
 
 for turn in conversation_turns:
     print(f"{turn['name']}: {turn['text']}\n")
