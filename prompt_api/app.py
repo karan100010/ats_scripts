@@ -83,14 +83,15 @@ def conversation_simulator(
             conversation_turns.append(dict(name=bot1.name, text=last_reply))
         return conversation_turns
 
-bot_instructions = """You are taking part in a discussion about bodyline bowling.
-Only generate text as yourself and do not prefix your reply with your name.
-Keep your answers to a couple of short sentences."""
+bot1_instructions = """You are a recovery agent looking to recover loan from the clinet your aim is that the clinet makes the payment"""
+bot2_instructions = """You are a clinet taking to recovery agent """
 
-bradman_bot = ConversationAgent(model, "Donald Bradman", bot_instructions, context_turns=5)
-jardine_bot = ConversationAgent(model, "Douglas Jardine", bot_instructions, context_turns=5)
+
+
+bradman_bot = ConversationAgent(model, "Vinod", bot1_instructions, context_turns=5)
+jardine_bot = ConversationAgent(model, "Sumit", bot2_instructions, context_turns=5)
 
 conversation_turns = conversation_simulator(bradman_bot, jardine_bot, total_turns=3)
 
-# for turn in conversation_turns:
-#     print(f"{turn['name']}: {turn['text']}\n")
+for turn in conversation_turns:
+    print(f"{turn['name']}: {turn['text']}\n")
