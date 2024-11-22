@@ -101,8 +101,7 @@ class HumanAgent:
             curr_model += f"Your name is {self.name}. {self._instructions}"
             if len(interlocutor_hist) == 0:
                 curr_model += "Introduce yourself and start the conversation"
-            elif len(interlocutor_hist) == 1:
-                curr_model += "Introduce yourself before continuing the conversation"
+          
 
         # Replay the last few turns
         for i in range(len(my_hist)):
@@ -146,7 +145,7 @@ bot2_instructions = """You are a client taking to recovery agent. Speak in short
 agent_bot = ConversationAgent(model, "Vinod", bot_instructions, context_turns=5)
 user_bot = ConversationAgent(model, "Sumit", bot2_instructions, context_turns=5)
 
-conversation_turns = conversation_simulator(agent_bot,user_bot, total_turns=1)
+conversation_turns = conversation_simulator(agent_bot,user_bot, total_turns=5)
 
 for turn in conversation_turns:
     print(f"{turn['name']}: {turn['text']}\n")
