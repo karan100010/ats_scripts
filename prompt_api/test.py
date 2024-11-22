@@ -39,9 +39,6 @@ class ConversationAgent:
             curr_model += f"Your name is {self.name}. {self._instructions}"
             if len(interlocutor_hist) == 0:
                 curr_model += "Introduce yourself and start the conversation"
-            elif len(interlocutor_hist) == 1:
-                curr_model += "Introduce yourself before continuing the conversation"
-
         # Replay the last few turns
         for i in range(len(my_hist)):
             with user():
