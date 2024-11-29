@@ -5,9 +5,9 @@ lm = dspy.LM("openai/microsoft/Phi-3.5-mini-instruct",
              api_base="http://localhost:23333/v1",  # ensure this points to your port
              api_key="local", model_type='chat')
 
-dspy.configure(lm=lm)
-lm("Say this is a test!", temperature=0.7)  # => ['This is a test!']
-lm(messages=[{"role": "user", "content": "Say this is a test!"}])  # => ['This is a test!']
+# dspy.configure(lm=lm)
+# lm("Say this is a test!", temperature=0.7)  # => ['This is a test!']
+# lm(messages=[{"role": "user", "content": "Say this is a test!"}])  # => ['This is a test!']
 
 
 
