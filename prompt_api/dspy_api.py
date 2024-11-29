@@ -49,6 +49,8 @@ def extract_entities():
         if name and type_:
             sentence = f"{name} is a {type_}"
             sentences.append(sentence)
+    for x in sentences:
+        print(x)
 
     return jsonify({'sentences': sentences})
 
