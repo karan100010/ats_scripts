@@ -53,7 +53,7 @@ def extract_entities():
     for x in sentences:
         print(x)
 
-    return jsonify({'sentences': sentences})
+    return jsonify({'sentences': sentences,"title":response.title})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5014) 
