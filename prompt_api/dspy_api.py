@@ -29,6 +29,7 @@ def extract_entities():
     # Get the input text from the POST request
     data = request.get_json()
     text = data.get('text', '')
+    print(text)
 
     if not text:
         return jsonify({'error': 'No text provided'}), 400
