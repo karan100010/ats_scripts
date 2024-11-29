@@ -38,11 +38,12 @@ def extract_entities():
     response = module(text=text)
     print(str(response))
     # Assuming entities are returned in the response as a list of dictionaries
+    print(entities)
     entities = response.entities  # Access the 'entities' output field
 
     sentences = []
     for entity in entities:
-        name = entity.get('name')
+        name = entity.get('entity')
         type_ = entity.get('type')  # Using 'type_' to avoid conflict with built-in 'type'
 
         if name and type_:
