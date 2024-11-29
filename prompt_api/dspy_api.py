@@ -36,6 +36,7 @@ def extract_entities():
 
     # Use the module to extract entities
     response = module(text=text)
+    print(str(response))
     # Assuming entities are returned in the response as a list of dictionaries
     entities = response.entities  # Access the 'entities' output field
 
