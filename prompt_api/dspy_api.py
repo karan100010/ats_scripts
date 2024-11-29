@@ -1,7 +1,7 @@
-import prompt_api.dspy_api as dspy_api
+import dspy
 from flask import Flask, request, jsonify
 
-lm = dspy_api.LM("openai/microsoft/Phi-3.5-mini-instruct",
+lm = dspy.LM("openai/microsoft/Phi-3.5-mini-instruct",
              api_base="http://localhost:23333/v1",  # ensure this points to your port
              api_key="local", model_type='chat')
 
