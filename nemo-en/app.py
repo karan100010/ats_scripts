@@ -161,12 +161,23 @@ def convert_ulaw_to_wave():
       
     #     if text[0] == "":
 
-
+      # Parse NLP response and prepare the final response
+        if response.status_code == 200:
+            nlp_data = response.json()
+            response_data = {
+                "data_time": datetime.now().isoformat(),
+                "transcribe": text[0] if text else "",
+                "nlp": nlp_data.get("sentences", {})
+            }
+        else:
+            response_data = {
+                "error": "Failed to process NLP service",
+                "details": response.text
+            }
     
 
       
-    
-        response_data={"text":response.text.sentences}
+
 
     # # Prepare the response JSON
     #         response_data = {
