@@ -157,6 +157,7 @@ def convert_ulaw_to_wave():
         os.remove(file)
         data={"text":text}
         response= requests.post("http://172.16.1.209:5014/extract",data=data)
+        print(response.text)
       
     #     if text[0] == "":
 
