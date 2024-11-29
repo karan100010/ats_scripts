@@ -1,4 +1,5 @@
 import dspy
+from flask import Flask, request, jsonify
 
 lm = dspy.LM("openai/microsoft/Phi-3.5-mini-instruct",
              api_base="http://localhost:23333/v1",  # ensure this points to your port
@@ -7,8 +8,8 @@ lm = dspy.LM("openai/microsoft/Phi-3.5-mini-instruct",
 dspy.configure(lm=lm)
 lm("Say this is a test!", temperature=0.7)  # => ['This is a test!']
 lm(messages=[{"role": "user", "content": "Say this is a test!"}])  # => ['This is a test!']
-from flask import Flask, request, jsonify
-import dspy
+
+
 
 # Assuming dspy and ExtractInfo are defined as per your example
 class ExtractInfo(dspy.Signature):
