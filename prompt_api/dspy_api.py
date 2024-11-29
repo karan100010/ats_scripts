@@ -43,6 +43,7 @@ def extract_entities():
     print(entities)
 
     sentences = []
+    sentences.append(response.title)
     for entity in entities:
         name = entity.get('entity')
         type_ = entity.get('type')  # Using 'type_' to avoid conflict with built-in 'type'
@@ -53,7 +54,7 @@ def extract_entities():
     for x in sentences:
         print(x)
 
-    return jsonify({'sentences': sentences,"title":response.title})
+    return jsonify({'sentences': sentences})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5014) 
