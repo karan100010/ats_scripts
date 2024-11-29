@@ -167,7 +167,7 @@ def convert_ulaw_to_wave():
             response_data = {
                 "data_time": datetime.now().isoformat(),
                 "transcribe": text[0] if text else "",
-                "nlp": nlp_data.get("sentences", {})
+                "sentences": nlp_data.get("sentences", {})
             }
         else:
             response_data = {
