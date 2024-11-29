@@ -38,8 +38,9 @@ def extract_entities():
     response = module(text=text)
     print(str(response))
     # Assuming entities are returned in the response as a list of dictionaries
-    print(entities)
+    
     entities = response.entities  # Access the 'entities' output field
+    print(entities)
 
     sentences = []
     for entity in entities:
