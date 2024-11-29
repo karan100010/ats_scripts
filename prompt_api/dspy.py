@@ -11,46 +11,46 @@ lm(messages=[{"role": "user", "content": "Say this is a test!"}])  # => ['This i
 
 
 
-# Assuming dspy and ExtractInfo are defined as per your example
-class ExtractInfo(dspy.Signature):
-    """Extract structured information from text."""
-    text: str = dspy.InputField()
-    title: str = dspy.OutputField()
-    headings: list[str] = dspy.OutputField()
-    entities: list[dict[str, str]] = dspy.OutputField(desc="a list of entities and their metadata")
+# # Assuming dspy and ExtractInfo are defined as per your example
+# class ExtractInfo(dspy.Signature):
+#     """Extract structured information from text."""
+#     text: str = dspy.InputField()
+#     title: str = dspy.OutputField()
+#     headings: list[str] = dspy.OutputField()
+#     entities: list[dict[str, str]] = dspy.OutputField(desc="a list of entities and their metadata")
 
-# Initialize the module
-module = dspy.Predict(ExtractInfo)
+# # Initialize the module
+# module = dspy.Predict(ExtractInfo)
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
-@app.route('/extract', methods=['POST'])
-def extract_entities():
-    # Get the input text from the POST request
-    data = request.get_json()
-    text = data.get('text', '')
+# @app.route('/extract', methods=['POST'])
+# def extract_entities():
+#     # Get the input text from the POST request
+#     data = request.get_json()
+#     text = data.get('text', '')
 
-    if not text:
-        return jsonify({'error': 'No text provided'}), 400
+#     if not text:
+#         return jsonify({'error': 'No text provided'}), 400
 
-    # Use the module to extract entities
-    response = module(text=text)
+#     # Use the module to extract entities
+#     response = module(text=text)
 
-    # Assuming entities are returned in the response as a list of dictionaries
-    entities = response.entities  # Access the 'entities' output field
+#     # Assuming entities are returned in the response as a list of dictionaries
+#     entities = response.entities  # Access the 'entities' output field
 
-    sentences = []
-    for entity in entities:
-        name = entity.get('name')
-        type_ = entity.get('type')  # Using 'type_' to avoid conflict with built-in 'type'
+#     sentences = []
+#     for entity in entities:
+#         name = entity.get('name')
+#         type_ = entity.get('type')  # Using 'type_' to avoid conflict with built-in 'type'
 
-        if name and type_:
-            sentence = f"{name} is a {type_}"
-            sentences.append(sentence)
+#         if name and type_:
+#             sentence = f"{name} is a {type_}"
+#             sentences.append(sentence)
 
-    return jsonify({'sentences': sentences})
+#     return jsonify({'sentences': sentences})
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5014) 
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=5014) 
 
 
