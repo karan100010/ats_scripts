@@ -155,91 +155,17 @@ def convert_ulaw_to_wave():
         #delete the file output.wav
 
         os.remove(file)
-        prompt = f"""<|system|>
-You are an expert in designing call flow systems for financial services, specifically focused on EMI (Equated Monthly Installment) recovery.
-
-**Objective:**
-Help me create a call flow script that efficiently handles incoming calls related to EMI recovery, integrating the caller's inputs directly into the flow to guide them through settling overdue payments.
-
-**Requirements:**
-
-1. **Greeting:**
-   - Start with a professional and empathetic greeting.
-     - Example: "Thank you for calling XYZ Financial Services. How may we assist you today?"
-
-2. **Identification and Verification:**
-   - Prompt the caller to provide necessary identification details to verify their account.
-     - Example: "To assist you better, may I have your account number and date of birth?"
-
-3. **Integration of Caller’s Input:**
-   - Use the caller's responses to personalize the conversation and guide the call flow.
-     - Examples:
-       - If the caller mentions difficulty in making payments, offer alternative payment plans.
-       - If the caller wants to make an immediate payment, guide them through the payment process.
-
-4. **EMI Recovery Process:**
-   - Provide information about overdue payments based on the verified account details.
-   - Use the caller's input to determine the best course of action.
-     - If the caller agrees to pay:
-       - Confirm the amount and due date.
-       - Offer various payment methods (online, phone, etc.).
-     - If the caller requests an extension:
-       - Check eligibility and provide options.
-       - Document the agreed-upon arrangement.
-
-5. **Handling Objections and Concerns:**
-   - Address any concerns or objections the caller may have, using their specific inputs.
-     - Example:
-       - "I understand that you're facing difficulties due to [caller’s reason]. Let's see how we can assist you."
-
-6. **Compliance and Legal Considerations:**
-   - Ensure all communications comply with relevant financial regulations and privacy laws.
-   - Use appropriate language that is respectful and non-threatening.
-
-7. **Recording and Utilizing Caller Input:**
-   - Record the caller's responses for future reference and compliance.
-   - Use the input to update the customer's account status in real-time.
-
-8. **Closing:**
-   - Summarize the agreed-upon actions using the caller's input.
-     - Example: "To confirm, you will make a payment of [amount] by [date] via [payment method]. Is that correct?"
-   - End the call with a polite and professional closing.
-     - Example: "Thank you for your time, [caller’s name]. If you have any further questions, please don't hesitate to call us again."
-
-**Deliverable:**
-Provide a detailed call flow script or pseudo-code that I can use to implement this EMI recovery system in our customer service operations, ensuring that the caller's inputs are seamlessly integrated into each step of the flow.
-
-**Technical Considerations:**
-- Assume the system may use speech recognition to handle voice inputs.
-- Design the system to dynamically respond to the caller's input at each stage.
-- Include data handling practices to securely process and store sensitive information.
-- Ensure quick response times and a user-friendly experience.
-
-**Suggestions for Improvement:**
-- Recommend strategies to personalize the call flow based on the caller's input.
-- Suggest methods to improve compliance and data security when handling user input.
-- Provide guidance on handling edge cases where caller input may be unclear or incomplete.
-<|system|>
-<|user|>{text[0]}<|user|>
-<|assistant|>"""
-
-
+        data={"text":text}
+        response= requests.post("http://localhost:5014/extract",data=data)
+      
     #     if text[0] == "":
-        a=requests.post("http://172.16.1.209:23333/v1/chat/completions",json={
-            "model": "microsoft/Phi-3.5-mini-instruct",
-            "messages": [{
-                "role":"system","content": "you are a call center exicitve that gives short cansise answers politly",
-                "role": "user", "content": prompt}],
-            "temperature": 0.9,
-          #  "max_tokens": 20 
-        }).content
-        
-        json_string = a.decode('utf-8')
-        data=json.loads(json_string)
+
+
+    
 
       
     
-        response_data={"response":data["choices"][0]["message"]["content"]}
+        response_data={"text":response.text.sentences}
 
     # # Prepare the response JSON
     #         response_data = {
