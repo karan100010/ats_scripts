@@ -43,7 +43,7 @@ def extract_entities():
     print(entities)
 
     sentences = []
-    sentences.append(response.title)
+    sentences.append(entities)
     for entity in entities:
         name = entity.get('entity')
         type_ = entity.get('type')  # Using 'type_' to avoid conflict with built-in 'type'

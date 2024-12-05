@@ -51,7 +51,7 @@ def api_status():
 
 
 # Load the English ASR model
-asr_model_en = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_en_conformer_ctc_large").cuda()
+asr_model_en =nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="nvidia/parakeet-ctc-0.6b").cuda()
 def load_audio_from_url(url):
     # Make a GET request to the URL
     response = requests.get(url)
