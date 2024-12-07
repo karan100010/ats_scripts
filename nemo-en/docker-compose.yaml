@@ -12,16 +12,16 @@ services:
     ports:
       - "5002:5002"
     container_name: nemo-en
-    networks:
-      - net
+    # networks:
+    #   - net
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
     deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-    #deploy:
-  #      resources:
-  #        limits:
-  #          cpus: "0.1"
+       resources:
+         limits:
+           cpus: "0.1"
