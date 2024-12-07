@@ -80,6 +80,7 @@ def transcribe_hi():
         return jsonify({'error': 'No audio file path provided'}), 400
 
   #  audiofile =load_audio_from_url(request.form['audiofile'])
+    print(request.form['audiofile'])
     
     try:
         # Transcribe the Hindi audio file
