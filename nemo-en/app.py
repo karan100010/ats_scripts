@@ -40,7 +40,7 @@ def convert_file(file):
         
 asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
 
-nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2").cuda()
+#nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2").cuda()
 
 @app.route('/api_status', methods=['GET'])
 def api_status():
@@ -83,7 +83,7 @@ def transcribe_hi():
     
     try:
         # Transcribe the Hindi audio file
-        transcription = asr_model_hi.transcribe([request.form['audiofile']])
+        transcription = asr_model_hi.transcribe([request.form['audiofile']],batch_size=16)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     response_data={'transcribe': transcription[0]}
@@ -218,7 +218,7 @@ def convert_ulaw_to_wave_hi():
     file=convert_file(ulaw_fragments)
     text=asr_model_hi.transcribe([file])
     #delete the file output.wav
-    result = nmt_model.translate([text[0]], source_lang="hi", target_lang="en")
+ #   result = nmt_model.translate([text[0]], source_lang="hi", target_lang="en")
     os.remove(file)
     if text[0] == "":
 
