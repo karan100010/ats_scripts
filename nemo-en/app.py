@@ -81,7 +81,7 @@ def transcribe_hi():
 
   #  audiofile =load_audio_from_url(request.form['audiofile'])
     print(request.form['audiofile'])
-    
+    print("hello")
     # try:
     #     # Transcribe the Hindi audio file
     #     transcription = asr_model_hi.transcribe([request.form['audiofile']])
