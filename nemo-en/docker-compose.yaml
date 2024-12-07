@@ -21,7 +21,7 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-    deploy:
-       resources:
-         limits:
-           cpus: "0.1"
+    # deploy:
+    #    resources:
+    #      limits:
+    #        cpus: "0.1"
