@@ -82,12 +82,12 @@ def transcribe_hi():
   #  audiofile =load_audio_from_url(request.form['audiofile'])
     print(request.form['audiofile'])
     
-    try:
-        # Transcribe the Hindi audio file
-        transcription = asr_model_hi.transcribe([request.form['audiofile']])
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    response_data={'transcribe': transcription[0]}
+    # try:
+    #     # Transcribe the Hindi audio file
+    #     transcription = asr_model_hi.transcribe([request.form['audiofile']])
+    # except Exception as e:
+    #     return jsonify({'error': str(e)}), 500
+    # response_data={'transcribe': transcription[0]}
     
     # if transcription[0] == "":
 
@@ -107,7 +107,7 @@ def transcribe_hi():
     #         'nlp': nlp_response.text
     #     }
 
-    return json.dumps(response_data,ensure_ascii=False)
+    # return json.dumps(response_data,ensure_ascii=False)
 
 @app.route('/transcribe_en', methods=['POST'])
 def transcribe_en():
