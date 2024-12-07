@@ -107,7 +107,7 @@ def transcribe_hi():
     #         'nlp': nlp_response.text
     #     }
 
-    return json.dumps(response_data,ensure_ascii=False)
+    return json.dumps({"yo":"hello"},ensure_ascii=False)
 
 @app.route('/transcribe_en', methods=['POST'])
 def transcribe_en():
