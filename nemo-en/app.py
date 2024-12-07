@@ -39,6 +39,7 @@ def convert_file(file):
     return filename
         
 asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
+asr_model_hi=asr_model_hi.half()
 
 #nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2").cuda()
 
@@ -84,6 +85,7 @@ def transcribe_hi():
     try:
         # Transcribe the Hindi audio file
         transcription = asr_model_hi.transcribe([request.form['audiofile']],batch_size=32)
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     response_data={'transcribe': transcription[0]}
