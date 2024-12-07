@@ -1,13 +1,13 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
-#import nemo.collections.asr as nemo_asr
+import nemo.collections.asr as nemo_asr
 import requests
 import tempfile
 import os
 import json
 import wave
 import json
-#import nemo.collections.nlp as nemo_nlp
+import nemo.collections.nlp as nemo_nlp
 import random
 import threading
 
@@ -38,9 +38,9 @@ def convert_file(file):
         wf.writeframes(file)
     return filename
         
-#asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
+asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
 
-#nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2").cuda()
+nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2").cuda()
 
 @app.route('/api_status', methods=['GET'])
 def api_status():
@@ -80,14 +80,13 @@ def transcribe_hi():
         return jsonify({'error': 'No audio file path provided'}), 400
 
   #  audiofile =load_audio_from_url(request.form['audiofile'])
-    print(request.form['audiofile'])
-    print("hello")
-    # try:
-    #     # Transcribe the Hindi audio file
-    #     transcription = asr_model_hi.transcribe([request.form['audiofile']])
-    # except Exception as e:
-    #     return jsonify({'error': str(e)}), 500
-    # response_data={'transcribe': transcription[0]}
+    
+    try:
+        # Transcribe the Hindi audio file
+        transcription = asr_model_hi.transcribe([request.form['audiofile']])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    response_data={'transcribe': transcription[0]}
     
     # if transcription[0] == "":
 
@@ -107,7 +106,7 @@ def transcribe_hi():
     #         'nlp': nlp_response.text
     #     }
 
-    return json.dumps({"yo":"hello"},ensure_ascii=False)
+    return json.dumps(response_data,ensure_ascii=False)
 
 @app.route('/transcribe_en', methods=['POST'])
 def transcribe_en():
@@ -217,9 +216,9 @@ def convert_ulaw_to_wave_hi():
     print(type(ulaw_fragments))
     #writ ulaw_fragments to a json file
     file=convert_file(ulaw_fragments)
-   # text=asr_model_hi.transcribe([file])
+    text=asr_model_hi.transcribe([file])
     #delete the file output.wav
-    #result = nmt_model.translate([text[0]], source_lang="hi", target_lang="en")
+    result = nmt_model.translate([text[0]], source_lang="hi", target_lang="en")
     os.remove(file)
     if text[0] == "":
 
