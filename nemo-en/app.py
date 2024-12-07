@@ -79,30 +79,32 @@ def transcribe_hi():
     if 'audiofile' not in request.form:
         return jsonify({'error': 'No audio file path provided'}), 400
 
-    audiofile =load_audio_from_url(request.form['audiofile'])
+  #  audiofile =load_audio_from_url(request.form['audiofile'])
     
     try:
         # Transcribe the Hindi audio file
-        transcription = asr_model_hi.transcribe([audiofile])
+        transcription = asr_model_hi.transcribe([request.form['audiofile']])
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    if transcription[0] == "":
+    response_data={'transcribe': transcription[0]}
+    
+    # if transcription[0] == "":
 
-    # Prepare the response JSON
-            response_data = {
-                'data_time': datetime.now().isoformat(),
-                'transcribe': transcription[0],
-                "nlp":{"intent":"", "entities":"", "sentiment":""}
-            }
-    else:
-        nlp = {"sentence": transcription[0]}
-        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        nlp_response = requests.post("http://172.16.1.209:5001/get_entities", json=nlp, headers=headers)
-        response_data = {
-            'data_time': datetime.now().isoformat(),
-            'transcribe': transcription[0],
-            'nlp': nlp_response.text
-        }
+    # # Prepare the response JSON
+    #         response_data = {
+    #             'data_time': datetime.now().isoformat(),
+    #             'transcribe': transcription[0],
+    #             "nlp":{"intent":"", "entities":"", "sentiment":""}
+    #         }
+    # else:
+    #     nlp = {"sentence": transcription[0]}
+    #     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    #     nlp_response = requests.post("http://172.16.1.209:5001/get_entities", json=nlp, headers=headers)
+    #     response_data = {
+    #         'data_time': datetime.now().isoformat(),
+    #         'transcribe': transcription[0],
+    #         'nlp': nlp_response.text
+    #     }
 
     return json.dumps(response_data,ensure_ascii=False)
 
