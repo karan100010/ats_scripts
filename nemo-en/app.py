@@ -10,6 +10,7 @@ import json
 import nemo.collections.nlp as nemo_nlp
 import random
 import threading
+import torch
 
 app = Flask(__name__)
 
@@ -155,7 +156,8 @@ def convert_ulaw_to_wave():
         #writ ulaw_fragments to a json file
         file=convert_file(ulaw_fragments)
         
-        text=asr_model_en.transcribe([file])
+        with torch.cuda.amp.autocast():
+            text = asr_model_en.transcribe(["path/to/audio.wav"])[0]
         #delete the file output.wav
 
         os.remove(file)
