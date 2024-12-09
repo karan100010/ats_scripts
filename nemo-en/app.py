@@ -41,7 +41,7 @@ def convert_file(file):
 #asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
 #asr_model_hi=asr_model_hi.half()
 
-nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2").cuda()
+#nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2").cuda()
 
 @app.route('/api_status', methods=['GET'])
 def api_status():
@@ -52,7 +52,7 @@ def api_status():
 
 
 # Load the English ASR model
-#asr_model_en =nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="nvidia/parakeet-ctc-0.6b").cuda()
+asr_model_en =nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="nvidia/parakeet-ctc-0.6b").cuda()
 def load_audio_from_url(url):
     # Make a GET request to the URL
     response = requests.get(url)
