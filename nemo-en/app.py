@@ -85,7 +85,7 @@ def transcribe_hi():
     
     try:
         # Transcribe the Hindi audio file
-        with torch.cuda.amp.autocast(dtype=torch.bfloat16):
+        # with torch.cuda.amp.autocast(dtype=torch.bfloat16):
           
             transcription= asr_model_hi.transcribe([request.form['audiofile']])
         # = asr_model_en.transcribe([request.form['audiofile']],batch_size=128)
