@@ -39,7 +39,7 @@ def convert_file(file):
         wf.writeframes(file)
     return filename
         
-#asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
+asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
 #asr_model_hi=asr_model_hi.half()
 
 #nmt_model = nemo_nlp.models.machine_translation.MTEncDecModel.from_pretrained(model_name="nmt_hi_en_transformer12x2").cuda()
@@ -157,7 +157,7 @@ def convert_ulaw_to_wave():
         file=convert_file(ulaw_fragments)
         
         with torch.cuda.amp.autocast():
-            text = asr_model_en.transcribe(["path/to/audio.wav"])[0]
+            text = asr_model_hi.transcribe(["path/to/audio.wav"])[0]
         #delete the file output.wav
 
         os.remove(file)
