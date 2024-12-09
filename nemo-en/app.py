@@ -84,7 +84,7 @@ def transcribe_hi():
     
     try:
         # Transcribe the Hindi audio file
-        transcription = asr_model_en.transcribe([request.form['audiofile']],batch_size=128)
+        transcription = asr_model_hi.transcribe([request.form['audiofile']],batch_size=128)
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
