@@ -52,7 +52,7 @@ def api_status():
 
 
 # Load the English ASR model
-#asr_model_en =nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="nvidia/parakeet-ctc-0.6b").cuda()
+asr_model_en =nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="nvidia/parakeet-ctc-0.6b").cuda()
 def load_audio_from_url(url):
     # Make a GET request to the URL
     response = requests.get(url)
@@ -84,7 +84,7 @@ def transcribe_hi():
     
     try:
         # Transcribe the Hindi audio file
-        transcription = asr_model_hi.transcribe([request.form['audiofile']],batch_size=128)
+        transcription = asr_model_en.transcribe([request.form['audiofile']],batch_size=128)
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
