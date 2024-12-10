@@ -25,7 +25,7 @@ def english():
 
 def hindi():
      recognizer_en = vosk.KaldiRecognizer(asr_model_en, 8000)
-     recognizer_en = recognizer_en.AcceptWaveform(request.get_data())
+     recognizer_en.AcceptWaveform(request.get_data())
      result = recognizer_en.FinalResult()
      return jsonify(result)
 
