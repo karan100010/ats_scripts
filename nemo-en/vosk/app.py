@@ -21,7 +21,7 @@ def english():
      result = recognizer_hi.FinalResult()
      return jsonify(result)
 
-@app.route('/vosk_hi', methods=['POST'])
+@app.route('/vosk_en', methods=['POST'])
 
 def hindi():
      recognizer_en = recognizer_en.AcceptWaveform(request.get_data())
