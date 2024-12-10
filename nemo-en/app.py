@@ -40,9 +40,10 @@ def convert_file(file):
         wf.writeframes(file)
     return filename
 asr_model_en=vosk.Model("vosk-model/vosk-model-en-in-0.5")
-asr_model_hi=vosk.Model("vosk-model/vosk-model-")
+asr_model_hi=vosk.Model("vosk-model/vosk-model-hi-0.22")
 recognizer_hi = vosk.KaldiRecognizer(asr_model_hi, 8000)
-asr_model_en=vosk.Model("vosk-model/vosk-model-en-in-0.5")
+recognizer_en = vosk.KaldiRecognizer(asr_model_en, 8000)
+
 
 
 
