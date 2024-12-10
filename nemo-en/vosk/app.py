@@ -16,14 +16,14 @@ recognizer_en = vosk.KaldiRecognizer(asr_model_en, 8000)
 
 @app.route('/vosk_hi', methods=['POST'])
 
-def convert_ulaw_to_wave():
+def english():
      recognizer_hi = recognizer_hi.AcceptWaveform(request.get_data())
      result = recognizer_hi.FinalResult()
      return jsonify(result)
 
 @app.route('/vosk_hi', methods=['POST'])
 
-def convert_ulaw_to_wave():
+def hindi():
      recognizer_en = recognizer_en.AcceptWaveform(request.get_data())
      result = recognizer_en.FinalResult()
      return jsonify(result)
