@@ -39,7 +39,11 @@ def convert_file(file):
         wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
     return filename
-asr_model_en=vosk.Model("/fra/KARAN/vosk-model-en-in-0.5")
+asr_model_en=vosk.Model("vosk-model/vosk-model-en-in-0.5")
+asr_model_hi=vosk.Model("vosk-model/vosk-model-")
+recognizer_hi = vosk.KaldiRecognizer(asr_model_hi, 8000)
+asr_model_en=vosk.Model("vosk-model/vosk-model-en-in-0.5")
+
 
 
 #asr_model_hi = nemo_asr.models.EncDecCTCModelBPE.from_pretrained(model_name="stt_hi_conformer_ctc_medium").cuda()
