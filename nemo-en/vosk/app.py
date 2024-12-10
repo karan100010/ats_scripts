@@ -10,13 +10,14 @@ import vosk
 app = Flask(__name__)
 
 asr_model_en=vosk.Model("/fra/KARAN/vosk-model-en-in-0.5/vosk-model-en-in-0.5")
-#asr_model_hi=vosk.Model("vosk-model/vosk-model-hi-0.22")
-#recognizer_hi = vosk.KaldiRecognizer(asr_model_hi, 8000)
+asr_model_hi=vosk.Model("/fra/KARAN/vosk-model-hi-0.22")
+#
 
 
 @app.route('/vosk_hi', methods=['POST'])
 
 def hindi():
+     recognizer_hi = vosk.KaldiRecognizer(asr_model_hi, 8000)
      recognizer_hi = recognizer_hi.AcceptWaveform(request.get_data())
      recognizer_hi.AcceptWaveform(request.get_data())
      result = recognizer_hi.FinalResult()
