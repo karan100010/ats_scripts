@@ -155,9 +155,25 @@ def transcribe_en():
     # Prepare the response JSON
     return jsonify(response_data)
 
-@app.route('/convert_en', methods=['POST'])
+@app.route('/vosk_hi', methods=['POST'])
 
 def convert_ulaw_to_wave():
+     recognizer_hi = recognizer_hi.AcceptWaveform(request.get_data())
+     result = recognizer_hi.FinalResult()
+     return jsonify(result)
+
+@app.route('/vosk_hi', methods=['POST'])
+
+def convert_ulaw_to_wave():
+     recognizer_en = recognizer_en.AcceptWaveform(request.get_data())
+     result = recognizer_en.FinalResult()
+     return jsonify(result)
+     
+
+
+@app.route('/convert_en', methods=['POST'])
+
+def vosk_en():
 
         ulaw_fragments  = request.get_data()
      #   print(ulaw_fragments)
