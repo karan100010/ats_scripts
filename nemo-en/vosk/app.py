@@ -1,18 +1,11 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
 #import nemo.collections.asr as nemo_asr
-import requests
-import tempfile
-import os
-import json
-import wave
-import json
+
 import vosk
 
 #import nemo.collections.nlp as nemo_nlp
-import random
-import threading
-import torch
+
 
 app = Flask(__name__)
 
