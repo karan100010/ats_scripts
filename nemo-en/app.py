@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
-import nemo.collections.asr as nemo_asr
+#import nemo.collections.asr as nemo_asr
 import requests
 import tempfile
 import os
@@ -8,7 +8,8 @@ import json
 import wave
 import json
 import vosk
-import nemo.collections.nlp as nemo_nlp
+
+#import nemo.collections.nlp as nemo_nlp
 import random
 import threading
 import torch
@@ -39,9 +40,9 @@ def convert_file(file):
         wf.setframerate(8000)  # Adjust based on the sample rate of your u-law audio
         wf.writeframes(file)
     return filename
-asr_model_en=vosk.Model("vosk-model/vosk-model-en-in-0.5")
-asr_model_hi=vosk.Model("vosk-model/vosk-model-hi-0.22")
-recognizer_hi = vosk.KaldiRecognizer(asr_model_hi, 8000)
+asr_model_en=vosk.Model("fra/KARAN/vosk-model-en-in-0.5/vosk-model-en-in-0.5")
+#asr_model_hi=vosk.Model("vosk-model/vosk-model-hi-0.22")
+#recognizer_hi = vosk.KaldiRecognizer(asr_model_hi, 8000)
 recognizer_en = vosk.KaldiRecognizer(asr_model_en, 8000)
 
 
