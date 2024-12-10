@@ -18,6 +18,7 @@ asr_model_en=vosk.Model("/fra/KARAN/vosk-model-en-in-0.5/vosk-model-en-in-0.5")
 
 def hindi():
      recognizer_hi = recognizer_hi.AcceptWaveform(request.get_data())
+     recognizer_hi.AcceptWaveform(request.get_data())
      result = recognizer_hi.FinalResult()
      return jsonify(result)
 
